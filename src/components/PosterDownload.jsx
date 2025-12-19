@@ -25,10 +25,10 @@ export default function PosterDownload({ stats, sex }) {
     const width = is16x9 ? 2560 : 1440;
     const height = is16x9 ? 1440 : 2560;
 
-    const pastColor = sex === "female" ? "#fb7185" : "#38bdf8";
+    const pastColor = "#3B82F6";
     const futureColor = isDark ? "#f3f4f6" : "#e5e7eb";
-    const currentColor = "#fbbf24";
-    const midpointColor = "#ef4444";
+    const currentColor = "#10B981";
+    const midpointColor = "#EC4899";
     const bgColor = isDark ? "#111827" : "#fafafa";
     const titleColor = isDark ? "#f3f4f6" : "#1f2937";
     const subtitleColor = isDark ? "#9ca3af" : "#6b7280";
