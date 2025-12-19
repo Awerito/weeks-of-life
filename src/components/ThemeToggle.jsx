@@ -4,6 +4,7 @@ export default function ThemeToggle({ theme, onToggle }) {
       onClick={onToggle}
       className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
       aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+      title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
     >
       {theme === "light" ? (
         <svg

@@ -6,6 +6,7 @@ import { useTheme } from "../hooks/useTheme";
 import InputForm from "../components/InputForm";
 import WeekGrid from "../components/WeekGrid";
 import ThemeToggle from "../components/ThemeToggle";
+import BuyMeCoffee from "../components/BuyMeCoffee";
 import LifeNumbers from "../components/stats/LifeNumbers";
 import ChileanContext from "../components/stats/ChileanContext";
 import CosmicPerspective from "../components/stats/CosmicPerspective";
@@ -116,7 +117,10 @@ export default function WeeksOfLife() {
           <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
             Weeks of Life
           </h1>
-          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          <div className="flex gap-2">
+            <BuyMeCoffee />
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          </div>
         </div>
         <p className="text-gray-500 dark:text-gray-400 mb-8">
           A visualization based on Chilean life expectancy
