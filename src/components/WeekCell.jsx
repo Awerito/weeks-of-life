@@ -1,33 +1,35 @@
-export default function WeekCell({
+import { memo } from "react";
+
+function WeekCell({
   weekNumber,
   isPast,
   isCurrent,
   isMidpoint,
   sex,
-  size,
-  gap,
   onHover,
   onLeave,
 }) {
-  let className = "rounded-sm transition-all ";
+  let innerClass = "rounded-sm transition-colors w-[var(--cell-size)] h-[var(--cell-size)] ";
 
   if (isMidpoint) {
-    className += "bg-red-500 ring-1 ring-red-300";
+    innerClass += "bg-red-500 ring-1 ring-red-300";
   } else if (isCurrent) {
-    className += "bg-amber-400 animate-pulse";
+    innerClass += "bg-amber-400 animate-pulse";
   } else if (isPast) {
-    className += sex === "female" ? "bg-rose-400" : "bg-sky-400";
+    innerClass += sex === "female" ? "bg-rose-400" : "bg-sky-400";
   } else {
-    className += "bg-gray-200";
+    innerClass += "bg-gray-200";
   }
 
   return (
     <div
-      style={{ width: size + gap, height: size + gap, padding: gap / 2 }}
+      className="w-[var(--total-size)] h-[var(--total-size)] p-[var(--gap-half)]"
       onMouseEnter={() => onHover(weekNumber)}
       onMouseLeave={onLeave}
     >
-      <div className={className} style={{ width: size, height: size }} />
+      <div className={innerClass} />
     </div>
   );
 }
+
+export default memo(WeekCell);

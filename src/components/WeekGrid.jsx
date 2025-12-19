@@ -59,6 +59,10 @@ export default function WeekGrid({ stats, sex }) {
       <div
         className="grid w-full"
         style={{
+          "--cell-size": `${cellSize}px`,
+          "--gap": `${GAP}px`,
+          "--gap-half": `${GAP / 2}px`,
+          "--total-size": `${totalSize}px`,
           gridTemplateColumns: `repeat(auto-fill, ${totalSize}px)`,
         }}
       >
@@ -70,8 +74,6 @@ export default function WeekGrid({ stats, sex }) {
             isCurrent={weekNumber === stats.weeksLived}
             isMidpoint={weekNumber === stats.midpointWeek}
             sex={sex}
-            size={cellSize}
-            gap={GAP}
             onHover={handleHover}
             onLeave={handleLeave}
           />
