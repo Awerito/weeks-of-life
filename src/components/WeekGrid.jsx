@@ -89,7 +89,7 @@ export default function WeekGrid({ stats, sex }) {
         </div>
       )}
 
-      <Legend sex={sex} hasExtra={stats.extraWeeks > 0} />
+      <Legend hasExtra={stats.extraWeeks > 0} />
       <PosterDownload stats={stats} sex={sex} />
     </div>
   );

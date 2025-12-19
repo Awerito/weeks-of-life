@@ -18,14 +18,14 @@ function fireConfetti() {
       angle: 60,
       spread: 55,
       origin: { x: 0, y: 0.6 },
-      colors: ["#10b981", "#34d399", "#6ee7b7"],
+      colors: ["#F5D02F", "#FFE066", "#FFF4B8"],
     });
     confetti({
       particleCount: 3,
       angle: 120,
       spread: 55,
       origin: { x: 1, y: 0.6 },
-      colors: ["#10b981", "#34d399", "#6ee7b7"],
+      colors: ["#F5D02F", "#FFE066", "#FFF4B8"],
     });
 
     if (Date.now() < end) {

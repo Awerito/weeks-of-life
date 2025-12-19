@@ -33,7 +33,7 @@ export function useLifeStats() {
     const solarTrips = Math.floor(daysLived / 365.25);
 
     const extraWeeks = Math.max(0, weeksLived - totalWeeks);
-    const displayTotalWeeks = Math.max(totalWeeks, weeksLived);
+    const displayTotalWeeks = Math.max(totalWeeks, weeksLived + 1);
 
     const newStats = {
       weeksLived,

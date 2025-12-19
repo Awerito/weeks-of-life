@@ -13,13 +13,13 @@ function WeekCell({
   let innerClass = "rounded-sm transition-colors w-[var(--cell-size)] h-[var(--cell-size)] ";
 
   if (isCurrent) {
-    innerClass += "bg-amber-400 animate-pulse";
+    innerClass += "bg-[#10B981]";
   } else if (isExtra) {
-    innerClass += "bg-emerald-400";
+    innerClass += "bg-[#F5D02F]";
   } else if (isMidpoint) {
-    innerClass += "bg-red-500 ring-1 ring-red-300";
+    innerClass += "bg-[#EC4899] ring-1 ring-pink-300";
   } else if (isPast) {
-    innerClass += sex === "female" ? "bg-rose-400" : "bg-sky-400";
+    innerClass += "bg-[#3B82F6]";
   } else {
     innerClass += "bg-gray-200";
   }
