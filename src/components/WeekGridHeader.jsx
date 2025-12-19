@@ -1,9 +1,4 @@
-export default function WeekGridHeader({
-  stats,
-  sex,
-  displayWeek,
-  weekText,
-}) {
+export default function WeekGridHeader({ stats, sex, displayWeek, weekText }) {
   return (
     <>
       {/* Mobile: sticky header with title + legend + message */}
