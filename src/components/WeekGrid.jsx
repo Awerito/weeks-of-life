@@ -48,11 +48,11 @@ export default function WeekGrid({ stats, sex }) {
   };
 
   return (
-    <div className="mt-8 bg-white p-6 rounded-lg shadow-sm">
-      <h2 className="text-lg font-medium mb-2 text-gray-800">
+    <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+      <h2 className="text-lg font-medium mb-2 text-gray-800 dark:text-gray-100">
         Your life in weeks
       </h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
         Life expectancy in Chile:{" "}
         <span className="font-medium">{stats.lifeExpectancyYears.toFixed(1)} years</span>{" "}
         ({sex === "female" ? "Female" : "Male"})
@@ -82,7 +82,7 @@ export default function WeekGrid({ stats, sex }) {
         ))}
       </div>
 
-      <div className="mt-4 text-sm text-gray-600">
+      <div className="mt-4 text-sm text-gray-600 dark:text-gray-300">
         Week {displayWeek + 1}: {getWeekText(displayWeek)}
       </div>
 

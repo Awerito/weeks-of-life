@@ -120,20 +120,20 @@ export default function PosterDownload({ stats, sex }) {
   };
 
   return (
-    <div className="mt-6 pt-4 border-t border-gray-100">
-      <p className="text-sm text-gray-600 mb-3">Download poster</p>
+    <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+      <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">Download poster</p>
       <div className="flex gap-3">
         <button
           onClick={() => downloadPoster("16x9")}
           disabled={downloading}
-          className="flex-1 px-4 py-2 bg-gray-800 text-white text-sm rounded-lg hover:bg-gray-700 transition-colors disabled:bg-gray-400"
+          className="flex-1 px-4 py-2 bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-800 text-sm rounded-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-500"
         >
           16:9 (Landscape)
         </button>
         <button
           onClick={() => downloadPoster("9x16")}
           disabled={downloading}
-          className="flex-1 px-4 py-2 bg-gray-800 text-white text-sm rounded-lg hover:bg-gray-700 transition-colors disabled:bg-gray-400"
+          className="flex-1 px-4 py-2 bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-800 text-sm rounded-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-500"
         >
           9:16 (Portrait)
         </button>

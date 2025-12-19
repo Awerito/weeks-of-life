@@ -20,7 +20,7 @@ function WeekCell({
   } else if (isPast) {
     innerClass += "bg-[#3B82F6]";
   } else {
-    innerClass += "bg-gray-200";
+    innerClass += "bg-gray-200 dark:bg-gray-100";
   }
 
   return (

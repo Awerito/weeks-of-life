@@ -7,30 +7,30 @@ export default function ChileanContext({ stats, chileanStats }) {
   const deathsSinceBirth = Math.round(stats.daysLived * chileanStats.deathsPerDay);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm">
-      <h2 className="text-lg font-medium mb-4 text-gray-800">Chilean context</h2>
-      <div className="space-y-3 text-gray-600">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+      <h2 className="text-lg font-medium mb-4 text-gray-800 dark:text-gray-100">Chilean context</h2>
+      <div className="space-y-3 text-gray-600 dark:text-gray-300">
         <p>
           Chile currently has a population of approximately{" "}
-          <span className="text-gray-900 font-medium">{currentPopulation}</span>{" "}
+          <span className="text-gray-900 dark:text-gray-100 font-medium">{currentPopulation}</span>{" "}
           million people.
         </p>
         <p>
           The average person will meet around{" "}
-          <span className="text-gray-900 font-medium">80,000</span> people in
+          <span className="text-gray-900 dark:text-gray-100 font-medium">80,000</span> people in
           their lifetime. You have probably already met approximately{" "}
-          <span className="text-gray-900 font-medium">
+          <span className="text-gray-900 dark:text-gray-100 font-medium">
             {formatNumber(peopleMet)}
           </span>{" "}
           individuals.
         </p>
         <p>
           Since your birth, approximately{" "}
-          <span className="text-gray-900 font-medium">
+          <span className="text-gray-900 dark:text-gray-100 font-medium">
             {formatNumber(birthsSinceBirth)}
           </span>{" "}
           people have been born in Chile and{" "}
-          <span className="text-gray-900 font-medium">
+          <span className="text-gray-900 dark:text-gray-100 font-medium">
             {formatNumber(deathsSinceBirth)}
           </span>{" "}
           have passed away.

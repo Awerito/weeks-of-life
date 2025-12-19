@@ -2,8 +2,10 @@ import { useState } from "react";
 import confetti from "canvas-confetti";
 import { useChileanStats } from "../hooks/useChileanStats";
 import { useLifeStats } from "../hooks/useLifeStats";
+import { useTheme } from "../hooks/useTheme";
 import InputForm from "../components/InputForm";
 import WeekGrid from "../components/WeekGrid";
+import ThemeToggle from "../components/ThemeToggle";
 import LifeNumbers from "../components/stats/LifeNumbers";
 import ChileanContext from "../components/stats/ChileanContext";
 import CosmicPerspective from "../components/stats/CosmicPerspective";
@@ -40,6 +42,7 @@ function fireConfetti() {
 export default function WeeksOfLife() {
   const [birthdate, setBirthdate] = useState("");
   const [sex, setSex] = useState("");
+  const { theme, toggle: toggleTheme } = useTheme();
 
   const { stats: chileanStats, loading: loadingChilean } = useChileanStats();
   const { stats, calculateStats, reset } = useLifeStats(
@@ -65,22 +68,25 @@ export default function WeeksOfLife() {
 
   if (loadingChilean) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-gray-500">Loading data...</div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-gray-500 dark:text-gray-400">Loading data...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 pt-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 pt-12 transition-colors">
       <div className="w-[90%] mx-auto">
-        <h1 className="text-2xl font-semibold text-gray-800 mb-1">
-          Life in weeks
-        </h1>
-        <p className="text-gray-500 mb-8">
+        <div className="flex justify-between items-start mb-1">
+          <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+            Life in weeks
+          </h1>
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        </div>
+        <p className="text-gray-500 dark:text-gray-400 mb-8">
           A visualization based on Chilean life expectancy
           {chileanStats?.dataYear && (
-            <span className="text-gray-400 text-sm ml-2">
+            <span className="text-gray-400 dark:text-gray-500 text-sm ml-2">
               (data: {chileanStats.dataYear})
             </span>
           )}
@@ -105,21 +111,21 @@ export default function WeeksOfLife() {
             </div>
             <button
               onClick={handleReset}
-              className="mt-6 w-full bg-gray-200 text-gray-700 py-3 rounded-lg hover:bg-gray-300 transition-colors"
+              className="mt-6 w-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 py-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             >
               Start over
             </button>
           </>
         )}
 
-        <footer className="mt-12 pt-6 border-t border-gray-200 text-xs text-gray-400">
+        <footer className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700 text-xs text-gray-400 dark:text-gray-500">
           <p>
             * Data source:{" "}
             <a
               href="https://data.worldbank.org/country/chile"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-gray-600"
+              className="underline hover:text-gray-600 dark:hover:text-gray-300"
             >
               World Bank Open Data
             </a>
