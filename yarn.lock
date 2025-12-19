@@ -2782,9 +2782,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"weeks-lefts@workspace:.":
+"weeks-of-life@workspace:.":
   version: 0.0.0-use.local
-  resolution: "weeks-lefts@workspace:."
+  resolution: "weeks-of-life@workspace:."
   dependencies:
     "@eslint/js": "npm:^9.39.1"
     "@tailwindcss/vite": "npm:^4.1.18"
