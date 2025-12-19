@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
 import { useChileanStats } from "../hooks/useChileanStats";
 import { useLifeStats } from "../hooks/useLifeStats";
@@ -10,6 +10,23 @@ import LifeNumbers from "../components/stats/LifeNumbers";
 import ChileanContext from "../components/stats/ChileanContext";
 import CosmicPerspective from "../components/stats/CosmicPerspective";
 import NaturalWorld from "../components/stats/NaturalWorld";
+
+const STORAGE_KEY = "weeks-of-life-data";
+
+function getSavedData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.birthdate && data.sex) {
+        return data;
+      }
+    }
+  } catch {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+  return null;
+}
 
 function fireConfetti() {
   const duration = 3000;
@@ -40,17 +57,32 @@ function fireConfetti() {
 }
 
 export default function WeeksOfLife() {
-  const [birthdate, setBirthdate] = useState("");
-  const [sex, setSex] = useState("");
+  const savedData = getSavedData();
+  const [birthdate, setBirthdate] = useState(savedData?.birthdate ?? "");
+  const [sex, setSex] = useState(savedData?.sex ?? "");
   const { theme, toggle: toggleTheme } = useTheme();
+  const hasRestoredRef = useRef(false);
 
   const { stats: chileanStats, loading: loadingChilean } = useChileanStats();
   const { stats, calculateStats, reset } = useLifeStats(
     chileanStats?.lifeExpectancy
   );
 
+  // Auto-calculate stats from restored data once chileanStats is ready
+  useEffect(() => {
+    if (hasRestoredRef.current || loadingChilean || !chileanStats) return;
+    if (birthdate && sex) {
+      hasRestoredRef.current = true;
+      const result = calculateStats(birthdate, sex);
+      if (result.extraWeeks > 0) {
+        fireConfetti();
+      }
+    }
+  }, [loadingChilean, chileanStats, birthdate, sex, calculateStats]);
+
   const handleSubmit = () => {
     if (birthdate && sex) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ birthdate, sex }));
       const result = calculateStats(birthdate, sex);
       if (result.extraWeeks > 0) {
         fireConfetti();
@@ -59,6 +91,7 @@ export default function WeeksOfLife() {
   };
 
   const handleReset = () => {
+    localStorage.removeItem(STORAGE_KEY);
     setBirthdate("");
     setSex("");
     reset();

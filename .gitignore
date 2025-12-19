@@ -207,3 +207,4 @@ tags
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/vim,linux,react,yarn,node
+sanity/
