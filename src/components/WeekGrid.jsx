@@ -54,7 +54,7 @@ export default function WeekGrid({ stats, sex }) {
       </h2>
       <p className="text-sm text-gray-500 mb-4">
         Life expectancy in Chile:{" "}
-        <span className="font-medium">{stats.lifeExpectancyYears} years</span>{" "}
+        <span className="font-medium">{stats.lifeExpectancyYears.toFixed(1)} years</span>{" "}
         ({sex === "female" ? "Female" : "Male"})
       </p>
 
@@ -76,7 +76,6 @@ export default function WeekGrid({ stats, sex }) {
             isCurrent={weekNumber === stats.weeksLived}
             isMidpoint={weekNumber === stats.midpointWeek}
             isExtra={weekNumber >= stats.totalWeeks && weekNumber < stats.weeksLived}
-            sex={sex}
             onHover={handleHover}
             onLeave={handleLeave}
           />

@@ -6,7 +6,6 @@ function WeekCell({
   isCurrent,
   isMidpoint,
   isExtra,
-  sex,
   onHover,
   onLeave,
 }) {

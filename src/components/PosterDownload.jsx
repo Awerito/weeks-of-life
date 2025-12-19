@@ -59,7 +59,7 @@ export default function PosterDownload({ stats, sex }) {
     }
 
     const title = "LIFE IN WEEKS";
-    const subtitle = `Life expectancy: ${stats.lifeExpectancyYears} years (${sex === "female" ? "Female" : "Male"})`;
+    const subtitle = `Life expectancy: ${stats.lifeExpectancyYears.toFixed(1)} years (${sex === "female" ? "Female" : "Male"})`;
     const lived = `${formatNumber(stats.weeksLived)} weeks lived (${stats.percentageLived}%)`;
 
     const legendY = startY + gridHeight + 40;

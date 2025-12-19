@@ -1,5 +1,6 @@
 import { useState } from "react";
 import confetti from "canvas-confetti";
+import { useChileanStats } from "../hooks/useChileanStats";
 import { useLifeStats } from "../hooks/useLifeStats";
 import InputForm from "../components/InputForm";
 import WeekGrid from "../components/WeekGrid";
@@ -39,7 +40,11 @@ function fireConfetti() {
 export default function WeeksOfLife() {
   const [birthdate, setBirthdate] = useState("");
   const [sex, setSex] = useState("");
-  const { stats, calculateStats, reset } = useLifeStats();
+
+  const { stats: chileanStats, loading: loadingChilean } = useChileanStats();
+  const { stats, calculateStats, reset } = useLifeStats(
+    chileanStats?.lifeExpectancy
+  );
 
   const handleSubmit = () => {
     if (birthdate && sex) {
@@ -58,6 +63,14 @@ export default function WeeksOfLife() {
 
   const showResults = stats !== null;
 
+  if (loadingChilean) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-500">Loading data...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 p-6 pt-12">
       <div className="w-[90%] mx-auto">
@@ -66,6 +79,11 @@ export default function WeeksOfLife() {
         </h1>
         <p className="text-gray-500 mb-8">
           A visualization based on Chilean life expectancy
+          {chileanStats?.dataYear && (
+            <span className="text-gray-400 text-sm ml-2">
+              (data: {chileanStats.dataYear})
+            </span>
+          )}
         </p>
 
         {!showResults ? (
@@ -81,7 +99,7 @@ export default function WeeksOfLife() {
             <WeekGrid stats={stats} sex={sex} />
             <div className="mt-6 space-y-4">
               <LifeNumbers stats={stats} />
-              <ChileanContext stats={stats} />
+              <ChileanContext stats={stats} chileanStats={chileanStats} />
               <CosmicPerspective stats={stats} />
               <NaturalWorld stats={stats} />
             </div>
@@ -93,6 +111,20 @@ export default function WeeksOfLife() {
             </button>
           </>
         )}
+
+        <footer className="mt-12 pt-6 border-t border-gray-200 text-xs text-gray-400">
+          <p>
+            * Data source:{" "}
+            <a
+              href="https://data.worldbank.org/country/chile"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-600"
+            >
+              World Bank Open Data
+            </a>
+          </p>
+        </footer>
       </div>
     </div>
   );

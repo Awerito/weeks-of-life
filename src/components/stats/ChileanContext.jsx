@@ -1,26 +1,18 @@
 import { formatNumber } from "../../utils/format";
-import {
-  getPopulationAtYear,
-  CURRENT_POPULATION,
-  BIRTHS_PER_DAY,
-  DEATHS_PER_DAY,
-} from "../../utils/chileanData";
 
-export default function ChileanContext({ stats }) {
-  const birthYearPopulation = getPopulationAtYear(stats.birthYear);
+export default function ChileanContext({ stats, chileanStats }) {
+  const currentPopulation = (chileanStats.population / 1000000).toFixed(1);
   const peopleMet = Math.round(80000 * (stats.percentageLived / 100));
-  const birthsSinceBirth = Math.round(stats.daysLived * BIRTHS_PER_DAY);
-  const deathsSinceBirth = Math.round(stats.daysLived * DEATHS_PER_DAY);
+  const birthsSinceBirth = Math.round(stats.daysLived * chileanStats.birthsPerDay);
+  const deathsSinceBirth = Math.round(stats.daysLived * chileanStats.deathsPerDay);
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <h2 className="text-lg font-medium mb-4 text-gray-800">Chilean context</h2>
       <div className="space-y-3 text-gray-600">
         <p>
-          During your lifetime, Chile's population has grown from approximately{" "}
-          <span className="text-gray-900 font-medium">{birthYearPopulation}</span>{" "}
-          to over{" "}
-          <span className="text-gray-900 font-medium">{CURRENT_POPULATION}</span>{" "}
+          Chile currently has a population of approximately{" "}
+          <span className="text-gray-900 font-medium">{currentPopulation}</span>{" "}
           million people.
         </p>
         <p>
