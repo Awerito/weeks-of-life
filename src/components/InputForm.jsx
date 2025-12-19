@@ -1,11 +1,14 @@
+import { useTranslation } from "react-i18next";
+
 export default function InputForm({ birthdate, sex, onBirthdateChange, onSexChange, onSubmit }) {
+  const { t } = useTranslation();
   const canSubmit = birthdate && sex;
 
   return (
     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm space-y-6">
       <div>
         <label htmlFor="birthdate" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-          Enter your birth date
+          {t("form.birthdate")}
         </label>
         <input
           id="birthdate"
@@ -19,7 +22,7 @@ export default function InputForm({ birthdate, sex, onBirthdateChange, onSexChan
 
       <div>
         <span id="sex-label" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-          Select your sex
+          {t("form.selectSex")}
         </span>
         <div className="flex gap-4" role="group" aria-labelledby="sex-label">
           <button
@@ -32,7 +35,7 @@ export default function InputForm({ birthdate, sex, onBirthdateChange, onSexChan
                 : "border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500"
             }`}
           >
-            Male
+            {t("form.male")}
           </button>
           <button
             type="button"
@@ -44,7 +47,7 @@ export default function InputForm({ birthdate, sex, onBirthdateChange, onSexChan
                 : "border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500"
             }`}
           >
-            Female
+            {t("form.female")}
           </button>
         </div>
       </div>
@@ -54,7 +57,7 @@ export default function InputForm({ birthdate, sex, onBirthdateChange, onSexChan
         disabled={!canSubmit}
         className="w-full bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-800 py-3 rounded-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed"
       >
-        Visualize your time
+        {t("form.submit")}
       </button>
     </div>
   );

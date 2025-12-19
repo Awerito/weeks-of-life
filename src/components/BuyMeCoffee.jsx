@@ -1,12 +1,16 @@
+import { useTranslation } from "react-i18next";
+
 export default function BuyMeCoffee() {
+  const { t } = useTranslation();
+
   return (
     <a
       href="https://buymeacoffee.com/awerito"
       target="_blank"
       rel="noopener noreferrer"
       className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors inline-flex items-center justify-center"
-      aria-label="Support this project"
-      title="Support this project"
+      aria-label={t("support.title")}
+      title={t("support.title")}
     >
       <svg
         className="w-5 h-5 text-yellow-500"

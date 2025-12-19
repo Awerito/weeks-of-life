@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import WeekCell from "./WeekCell";
 import WeekGridHeader from "./WeekGridHeader";
 import Legend from "./Legend";
@@ -24,19 +25,22 @@ function getMilestoneForWeek(week) {
   return matching.map((m) => `${m.person} ${m.achievement}`).join(" • ");
 }
 
-function getWeekText(week, stats) {
+function getWeekText(week, stats, t) {
   const milestone = getMilestoneForWeek(week);
   if (milestone) return milestone;
 
-  if (week >= stats.totalWeeks && week < stats.weeksLived)
-    return "A bonus week beyond expectancy";
-  if (week === stats.midpointWeek) return "The midpoint of your life";
-  if (week < stats.weeksLived) return "A week from your past";
-  if (week === stats.weeksLived) return "Your current week";
-  return "A week in your potential future";
+  if (week >= stats.totalWeeks && week < stats.weeksLived) {
+    const bonusNumber = week - stats.totalWeeks + 1;
+    return t("weekText.bonusWeek", { number: bonusNumber });
+  }
+  if (week === stats.midpointWeek) return t("weekText.midpoint");
+  if (week < stats.weeksLived) return t("weekText.weekLived");
+  if (week === stats.weeksLived) return t("weekText.currentWeek");
+  return t("weekText.weekToLive");
 }
 
 export default function WeekGrid({ stats, sex }) {
+  const { t } = useTranslation();
   const [hoverWeek, setHoverWeek] = useState(null);
   const [cellSize, setCellSize] = useState(getCellSize);
 
@@ -52,7 +56,7 @@ export default function WeekGrid({ stats, sex }) {
 
   const weeks = Array.from({ length: stats.displayTotalWeeks }, (_, i) => i);
   const displayWeek = hoverWeek ?? stats.weeksLived;
-  const weekText = getWeekText(displayWeek, stats);
+  const weekText = getWeekText(displayWeek, stats, t);
 
   return (
     <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
@@ -92,7 +96,7 @@ export default function WeekGrid({ stats, sex }) {
 
       {/* Desktop: week message below grid */}
       <div className="hidden md:block mt-4 text-sm text-gray-600 dark:text-gray-300">
-        Week {displayWeek + 1}: {weekText}
+        {t("grid.week", { number: displayWeek + 1, text: weekText })}
       </div>
 
       <Legend hasExtra={stats.extraWeeks > 0} />

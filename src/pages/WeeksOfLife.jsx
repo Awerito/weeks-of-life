@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import confetti from "canvas-confetti";
 import { useChileanStats } from "../hooks/useChileanStats";
 import { useLifeStats } from "../hooks/useLifeStats";
@@ -6,6 +7,7 @@ import { useTheme } from "../hooks/useTheme";
 import InputForm from "../components/InputForm";
 import WeekGrid from "../components/WeekGrid";
 import ThemeToggle from "../components/ThemeToggle";
+import LanguageToggle from "../components/LanguageToggle";
 import BuyMeCoffee from "../components/BuyMeCoffee";
 import LifeNumbers from "../components/stats/LifeNumbers";
 import ChileanContext from "../components/stats/ChileanContext";
@@ -60,6 +62,7 @@ function fireConfetti() {
 const initialData = getSavedData();
 
 export default function WeeksOfLife() {
+  const { t } = useTranslation();
   const [birthdate, setBirthdate] = useState(initialData?.birthdate ?? "");
   const [sex, setSex] = useState(initialData?.sex ?? "");
   const [hasInitialData, setHasInitialData] = useState(!!initialData);
@@ -105,7 +108,7 @@ export default function WeeksOfLife() {
   if (loadingChilean || isRestoring) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-gray-500 dark:text-gray-400">Loading data...</div>
+        <div className="text-gray-500 dark:text-gray-400">{t("app.loading")}</div>
       </div>
     );
   }
@@ -115,18 +118,19 @@ export default function WeeksOfLife() {
       <div className="w-[90%] mx-auto">
         <div className="flex justify-between items-start mb-1">
           <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
-            Weeks of Life
+            {t("app.title")}
           </h1>
           <div className="flex gap-2">
+            <LanguageToggle />
             <BuyMeCoffee />
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
           </div>
         </div>
         <p className="text-gray-500 dark:text-gray-400 mb-8">
-          A visualization based on Chilean life expectancy
+          {t("app.subtitle")}
           {chileanStats?.dataYear && (
             <span className="text-gray-400 dark:text-gray-500 text-sm ml-2">
-              (data: {chileanStats.dataYear})
+              {t("app.dataYear", { year: chileanStats.dataYear })}
             </span>
           )}
         </p>
@@ -152,14 +156,14 @@ export default function WeeksOfLife() {
               onClick={handleReset}
               className="mt-6 w-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 py-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             >
-              Start over
+              {t("app.startOver")}
             </button>
           </>
         )}
 
         <footer className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700 text-xs text-gray-400 dark:text-gray-500">
           <p>
-            Data source:{" "}
+            {t("footer.dataSource")}{" "}
             <a
               href="https://data.worldbank.org/country/chile"
               target="_blank"

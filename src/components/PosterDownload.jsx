@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { formatNumber } from "../utils/format";
 
 export default function PosterDownload({ stats, sex }) {
+  const { t } = useTranslation();
   const [downloading, setDownloading] = useState(false);
   const [sharing, setSharing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -172,9 +174,16 @@ export default function PosterDownload({ stats, sex }) {
       }
     }
 
-    const title = "WEEKS OF LIFE";
-    const subtitle = `Life expectancy: ${stats.lifeExpectancyYears.toFixed(1)} years (${sex === "female" ? "Female" : "Male"})`;
-    const lived = `${formatNumber(stats.weeksLived)} weeks lived (${stats.percentageLived}%)`;
+    const sexLabel = sex === "female" ? t("form.female") : t("form.male");
+    const title = t("poster.title");
+    const subtitle = t("poster.lifeExpectancy", {
+      years: stats.lifeExpectancyYears.toFixed(1),
+      sex: sexLabel,
+    });
+    const lived = t("poster.weeksLived", {
+      weeks: formatNumber(stats.weeksLived),
+      percent: stats.percentageLived,
+    });
 
     const legendY = startY + gridHeight + 50;
     const legendItems = hasExtra ? 5 : 4;
@@ -184,7 +193,7 @@ export default function PosterDownload({ stats, sex }) {
     const bonusLegend = hasExtra
       ? `
         <rect x="${legendStartX + legendSpacing * 4}" y="${legendY}" width="24" height="24" rx="4" fill="${extraColor}"/>
-        <text x="${legendStartX + legendSpacing * 4 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">Bonus</text>
+        <text x="${legendStartX + legendSpacing * 4 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">${t("legend.bonus")}</text>
       `
       : "";
 
@@ -199,16 +208,16 @@ export default function PosterDownload({ stats, sex }) {
         ${cells}
 
         <rect x="${legendStartX}" y="${legendY}" width="24" height="24" rx="4" fill="${pastColor}"/>
-        <text x="${legendStartX + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">Lived</text>
+        <text x="${legendStartX + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">${t("legend.lived")}</text>
 
         <rect x="${legendStartX + legendSpacing}" y="${legendY}" width="24" height="24" rx="4" fill="${currentColor}"/>
-        <text x="${legendStartX + legendSpacing + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">Now</text>
+        <text x="${legendStartX + legendSpacing + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">${t("legend.now")}</text>
 
         <rect x="${legendStartX + legendSpacing * 2}" y="${legendY}" width="24" height="24" rx="4" fill="${midpointColor}"/>
-        <text x="${legendStartX + legendSpacing * 2 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">50% of life</text>
+        <text x="${legendStartX + legendSpacing * 2 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">${t("poster.halfLife")}</text>
 
         <rect x="${legendStartX + legendSpacing * 3}" y="${legendY}" width="24" height="24" rx="4" fill="${futureColor}"/>
-        <text x="${legendStartX + legendSpacing * 3 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">Yet to live</text>
+        <text x="${legendStartX + legendSpacing * 3 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">${t("poster.yetToLive")}</text>
 
         ${bonusLegend}
       </svg>
@@ -276,7 +285,7 @@ export default function PosterDownload({ stats, sex }) {
       const blob = await generateImageBlob(format, theme);
 
       if (!blob) {
-        alert("Failed to generate image");
+        alert(t("poster.alertFailed"));
         setSharing(false);
         return;
       }
@@ -285,9 +294,14 @@ export default function PosterDownload({ stats, sex }) {
         type: "image/png",
       });
 
+      const shareText = t("poster.shareText", {
+        weeks: stats.weeksLived,
+        percent: stats.percentageLived,
+      });
+
       const shareData = {
-        title: "My Life in Weeks",
-        text: `${stats.weeksLived} weeks lived, ${stats.percentageLived}% of my life expectancy`,
+        title: t("poster.shareTitle"),
+        text: shareText,
         files: [file],
       };
 
@@ -297,8 +311,8 @@ export default function PosterDownload({ stats, sex }) {
       } else if (navigator.share) {
         // Fallback: share without file (just text/url)
         await navigator.share({
-          title: "My Life in Weeks",
-          text: `${stats.weeksLived} weeks lived, ${stats.percentageLived}% of my life expectancy`,
+          title: t("poster.shareTitle"),
+          text: shareText,
           url: window.location.href,
         });
       } else if (navigator.clipboard && window.ClipboardItem) {
@@ -306,7 +320,7 @@ export default function PosterDownload({ stats, sex }) {
         await navigator.clipboard.write([
           new ClipboardItem({ "image/png": blob }),
         ]);
-        alert("Image copied to clipboard!");
+        alert(t("poster.alertCopied"));
       } else {
         // Last resort: download the file
         const url = URL.createObjectURL(blob);
@@ -315,12 +329,12 @@ export default function PosterDownload({ stats, sex }) {
         link.href = url;
         link.click();
         URL.revokeObjectURL(url);
-        alert("Image saved! You can now share it from your gallery.");
+        alert(t("poster.alertSaved"));
       }
     } catch (err) {
       if (err.name !== "AbortError") {
         console.error("Share failed:", err);
-        alert("Couldn't share. Try downloading the image instead.");
+        alert(t("poster.alertShareFailed"));
       }
     }
 
@@ -328,10 +342,10 @@ export default function PosterDownload({ stats, sex }) {
   };
 
   const options = [
-    { format: "16x9", theme: "light", label: "Landscape Light" },
-    { format: "16x9", theme: "dark", label: "Landscape Dark" },
-    { format: "9x16", theme: "light", label: "Portrait Light" },
-    { format: "9x16", theme: "dark", label: "Portrait Dark" },
+    { format: "16x9", theme: "light", label: t("poster.landscapeLight") },
+    { format: "16x9", theme: "dark", label: t("poster.landscapeDark") },
+    { format: "9x16", theme: "light", label: t("poster.portraitLight") },
+    { format: "9x16", theme: "dark", label: t("poster.portraitDark") },
   ];
 
   return (
@@ -345,7 +359,7 @@ export default function PosterDownload({ stats, sex }) {
             disabled={downloading}
             className="w-full px-4 py-2 bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-800 text-sm rounded-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-500 flex items-center justify-center gap-2"
           >
-            {downloading ? "..." : "Download"}
+            {downloading ? "..." : t("poster.download")}
             {!downloading && (
               <svg
                 className={`w-4 h-4 transition-transform ${menuOpen ? "rotate-180" : ""}`}
@@ -384,7 +398,7 @@ export default function PosterDownload({ stats, sex }) {
             disabled={sharing}
             className="w-full px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400 flex items-center justify-center gap-2"
           >
-            {sharing ? "..." : "Share"}
+            {sharing ? "..." : t("poster.share")}
             {!sharing && (
               <svg
                 className={`w-4 h-4 transition-transform ${shareMenuOpen ? "rotate-180" : ""}`}

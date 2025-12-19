@@ -1,6 +1,8 @@
+import { useTranslation, Trans } from "react-i18next";
 import { formatNumber } from "../../utils/format";
 
 export default function ChileanContext({ stats, chileanStats }) {
+  const { t } = useTranslation();
   const currentPopulation = (chileanStats.population / 1000000).toFixed(1);
   const peopleMet = Math.round(80000 * (stats.percentageLived / 100));
   const birthsSinceBirth = Math.round(stats.daysLived * chileanStats.birthsPerDay);
@@ -8,32 +10,30 @@ export default function ChileanContext({ stats, chileanStats }) {
 
   return (
     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
-      <h2 className="text-lg font-medium mb-4 text-gray-800 dark:text-gray-100">Chilean context</h2>
+      <h2 className="text-lg font-medium mb-4 text-gray-800 dark:text-gray-100">
+        {t("stats.chilean.title")}
+      </h2>
       <div className="space-y-3 text-gray-600 dark:text-gray-300">
         <p>
-          Chile currently has a population of approximately{" "}
-          <span className="text-gray-900 dark:text-gray-100 font-medium">{currentPopulation}</span>{" "}
-          million people.
+          <Trans
+            i18nKey="stats.chilean.population"
+            values={{ million: currentPopulation }}
+            components={{ strong: <span className="text-gray-900 dark:text-gray-100 font-medium" /> }}
+          />
         </p>
         <p>
-          The average person will meet around{" "}
-          <span className="text-gray-900 dark:text-gray-100 font-medium">80,000</span> people in
-          their lifetime. You have probably already met approximately{" "}
-          <span className="text-gray-900 dark:text-gray-100 font-medium">
-            {formatNumber(peopleMet)}
-          </span>{" "}
-          individuals.
+          <Trans
+            i18nKey="stats.chilean.peopleMet"
+            values={{ count: formatNumber(peopleMet) }}
+            components={{ strong: <span className="text-gray-900 dark:text-gray-100 font-medium" /> }}
+          />
         </p>
         <p>
-          Since your birth, approximately{" "}
-          <span className="text-gray-900 dark:text-gray-100 font-medium">
-            {formatNumber(birthsSinceBirth)}
-          </span>{" "}
-          people have been born in Chile and{" "}
-          <span className="text-gray-900 dark:text-gray-100 font-medium">
-            {formatNumber(deathsSinceBirth)}
-          </span>{" "}
-          have passed away.
+          <Trans
+            i18nKey="stats.chilean.birthsDeaths"
+            values={{ births: formatNumber(birthsSinceBirth), deaths: formatNumber(deathsSinceBirth) }}
+            components={{ strong: <span className="text-gray-900 dark:text-gray-100 font-medium" /> }}
+          />
         </p>
       </div>
     </div>

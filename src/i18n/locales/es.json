@@ -1,0 +1,95 @@
+{
+  "app": {
+    "title": "Semanas de Vida",
+    "subtitle": "Una visualización basada en la esperanza de vida chilena",
+    "dataYear": "(datos: {{year}})",
+    "loading": "Cargando datos...",
+    "startOver": "Comenzar de nuevo"
+  },
+  "form": {
+    "birthdate": "Ingresa tu fecha de nacimiento",
+    "selectSex": "Selecciona tu sexo",
+    "male": "Hombre",
+    "female": "Mujer",
+    "submit": "Visualizar tu tiempo"
+  },
+  "legend": {
+    "lived": "Vivido",
+    "now": "Ahora",
+    "midpoint": "50%",
+    "future": "Por vivir",
+    "bonus": "Semanas extra"
+  },
+  "grid": {
+    "title": "Tu vida en semanas",
+    "lifeExpectancy": "Esperanza de vida en Chile:",
+    "years": "años",
+    "week": "Semana {{number}}: {{text}}"
+  },
+  "weekText": {
+    "currentWeek": "tu semana actual",
+    "midpoint": "mitad de tu esperanza de vida",
+    "bonusWeek": "semana extra {{number}}",
+    "weekLived": "semana vivida",
+    "weekToLive": "semana por vivir"
+  },
+  "stats": {
+    "lifeNumbers": {
+      "title": "Tu vida en números",
+      "weeksLived": "Has vivido <strong>{{weeks}}</strong> semanas, lo que representa el <strong>{{percent}}%</strong> de tu esperanza de vida.",
+      "daysExperience": "Eso son <strong>{{days}}</strong> días de experiencia y aproximadamente <strong>{{seasons}}</strong> estaciones observadas.",
+      "heartbeats": "Tu corazón ha latido aproximadamente <strong>{{count}}</strong> veces.",
+      "breathsSleep": "Has respirado alrededor de <strong>{{breaths}}</strong> veces y dormido aproximadamente <strong>{{hours}}</strong> horas."
+    },
+    "chilean": {
+      "title": "Contexto chileno",
+      "population": "Chile tiene actualmente una población de aproximadamente <strong>{{million}}</strong> millones de personas.",
+      "peopleMet": "Una persona promedio conocerá alrededor de <strong>80.000</strong> personas en su vida. Probablemente ya has conocido aproximadamente <strong>{{count}}</strong> individuos.",
+      "birthsDeaths": "Desde tu nacimiento, aproximadamente <strong>{{births}}</strong> personas han nacido en Chile y <strong>{{deaths}}</strong> han fallecido."
+    },
+    "cosmic": {
+      "title": "Perspectiva cósmica",
+      "earthTravel": "Desde tu nacimiento, la Tierra ha viajado aproximadamente <strong>{{km}}</strong> kilómetros por el espacio alrededor del Sol.",
+      "universe": "El universo observable tiene aproximadamente <strong>93</strong> mil millones de años luz de diámetro. Tu vida es solo el <strong>{{percent}}%</strong> de la edad del universo.",
+      "solarSystem": "Durante tu vida, nuestro sistema solar se ha movido aproximadamente <strong>{{km}}</strong> kilómetros a través de la Vía Láctea."
+    },
+    "natural": {
+      "title": "Mundo natural",
+      "lunarCycles": "Has experimentado aproximadamente <strong>{{lunar}}</strong> ciclos lunares y <strong>{{solar}}</strong> viajes alrededor del Sol.",
+      "cypress": "Un ciprés de la Patagonia puede vivir más de 3.600 años. Tu edad actual es el <strong>{{percent}}%</strong> de su esperanza de vida potencial.",
+      "cells": "Durante tu vida, tu cuerpo ha reemplazado la mayoría de sus células varias veces. No estás hecho de los mismos átomos con los que naciste."
+    }
+  },
+  "poster": {
+    "download": "Descargar",
+    "share": "Compartir",
+    "landscapeLight": "Horizontal Claro",
+    "landscapeDark": "Horizontal Oscuro",
+    "portraitLight": "Vertical Claro",
+    "portraitDark": "Vertical Oscuro",
+    "title": "SEMANAS DE VIDA",
+    "lifeExpectancy": "Esperanza de vida: {{years}} años ({{sex}})",
+    "weeksLived": "{{weeks}} semanas vividas ({{percent}}%)",
+    "halfLife": "50% de vida",
+    "yetToLive": "Por vivir",
+    "alertFailed": "Error al generar imagen",
+    "alertCopied": "Imagen copiada al portapapeles!",
+    "alertSaved": "Imagen guardada! Ahora puedes compartirla desde tu galería.",
+    "alertShareFailed": "No se pudo compartir. Intenta descargar la imagen.",
+    "shareTitle": "Mi Vida en Semanas",
+    "shareText": "{{weeks}} semanas vividas, {{percent}}% de mi esperanza de vida"
+  },
+  "theme": {
+    "switchToLight": "Cambiar a modo claro",
+    "switchToDark": "Cambiar a modo oscuro"
+  },
+  "support": {
+    "title": "Apoyar este proyecto"
+  },
+  "language": {
+    "title": "Cambiar idioma"
+  },
+  "footer": {
+    "dataSource": "Fuente de datos:"
+  }
+}

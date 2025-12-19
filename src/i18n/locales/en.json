@@ -1,0 +1,95 @@
+{
+  "app": {
+    "title": "Weeks of Life",
+    "subtitle": "A visualization based on Chilean life expectancy",
+    "dataYear": "(data: {{year}})",
+    "loading": "Loading data...",
+    "startOver": "Start over"
+  },
+  "form": {
+    "birthdate": "Enter your birth date",
+    "selectSex": "Select your sex",
+    "male": "Male",
+    "female": "Female",
+    "submit": "Visualize your time"
+  },
+  "legend": {
+    "lived": "Lived",
+    "now": "Now",
+    "midpoint": "50%",
+    "future": "Future",
+    "bonus": "Bonus weeks"
+  },
+  "grid": {
+    "title": "Your life in weeks",
+    "lifeExpectancy": "Life expectancy in Chile:",
+    "years": "years",
+    "week": "Week {{number}}: {{text}}"
+  },
+  "weekText": {
+    "currentWeek": "your current week",
+    "midpoint": "midpoint of your life expectancy",
+    "bonusWeek": "bonus week {{number}}",
+    "weekLived": "week lived",
+    "weekToLive": "week to live"
+  },
+  "stats": {
+    "lifeNumbers": {
+      "title": "Your life in numbers",
+      "weeksLived": "You have lived <strong>{{weeks}}</strong> weeks, which is <strong>{{percent}}%</strong> of your life expectancy.",
+      "daysExperience": "That's <strong>{{days}}</strong> days of experience and approximately <strong>{{seasons}}</strong> seasons observed.",
+      "heartbeats": "Your heart has beaten approximately <strong>{{count}}</strong> times.",
+      "breathsSleep": "You have taken around <strong>{{breaths}}</strong> breaths and slept approximately <strong>{{hours}}</strong> hours."
+    },
+    "chilean": {
+      "title": "Chilean context",
+      "population": "Chile currently has a population of approximately <strong>{{million}}</strong> million people.",
+      "peopleMet": "The average person will meet around <strong>80,000</strong> people in their lifetime. You have probably already met approximately <strong>{{count}}</strong> individuals.",
+      "birthsDeaths": "Since your birth, approximately <strong>{{births}}</strong> people have been born in Chile and <strong>{{deaths}}</strong> have passed away."
+    },
+    "cosmic": {
+      "title": "Cosmic perspective",
+      "earthTravel": "Since your birth, Earth has traveled approximately <strong>{{km}}</strong> kilometers through space around the Sun.",
+      "universe": "The observable universe is approximately <strong>93</strong> billion light-years in diameter. Your life is only <strong>{{percent}}%</strong> of the age of the universe.",
+      "solarSystem": "During your lifetime, our solar system has moved approximately <strong>{{km}}</strong> kilometers through the Milky Way."
+    },
+    "natural": {
+      "title": "Natural world",
+      "lunarCycles": "You have experienced approximately <strong>{{lunar}}</strong> lunar cycles and <strong>{{solar}}</strong> trips around the Sun.",
+      "cypress": "A Patagonian cypress can live over 3,600 years. Your current age is <strong>{{percent}}%</strong> of its potential lifespan.",
+      "cells": "During your lifetime, your body has replaced most of its cells several times. You are not made of the same atoms you were born with."
+    }
+  },
+  "poster": {
+    "download": "Download",
+    "share": "Share",
+    "landscapeLight": "Landscape Light",
+    "landscapeDark": "Landscape Dark",
+    "portraitLight": "Portrait Light",
+    "portraitDark": "Portrait Dark",
+    "title": "WEEKS OF LIFE",
+    "lifeExpectancy": "Life expectancy: {{years}} years ({{sex}})",
+    "weeksLived": "{{weeks}} weeks lived ({{percent}}%)",
+    "halfLife": "50% of life",
+    "yetToLive": "Yet to live",
+    "alertFailed": "Failed to generate image",
+    "alertCopied": "Image copied to clipboard!",
+    "alertSaved": "Image saved! You can now share it from your gallery.",
+    "alertShareFailed": "Couldn't share. Try downloading the image instead.",
+    "shareTitle": "My Life in Weeks",
+    "shareText": "{{weeks}} weeks lived, {{percent}}% of my life expectancy"
+  },
+  "theme": {
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  },
+  "support": {
+    "title": "Support this project"
+  },
+  "language": {
+    "title": "Change language"
+  },
+  "footer": {
+    "dataSource": "Data source:"
+  }
+}

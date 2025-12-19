@@ -1,10 +1,15 @@
+import { useTranslation } from "react-i18next";
+
 export default function ThemeToggle({ theme, onToggle }) {
+  const { t } = useTranslation();
+  const label = theme === "dark" ? t("theme.switchToLight") : t("theme.switchToDark");
+
   return (
     <button
       onClick={onToggle}
       className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-      aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+      aria-label={label}
+      title={label}
     >
       {theme === "light" ? (
         <svg
