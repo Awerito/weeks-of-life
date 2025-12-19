@@ -1,0 +1,9 @@
+node_modules
+.yarn
+.pnp.*
+dist
+.git
+.gitignore
+README.md
+.env*
+*.log

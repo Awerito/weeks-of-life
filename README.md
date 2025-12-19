@@ -1,16 +1,45 @@
-# React + Vite
+# Weeks of Life
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Live Demo](https://img.shields.io/badge/demo-weeksoflife.grye.org-blue)](https://weeksoflife.grye.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-Currently, two official plugins are available:
+A visualization of your life in weeks, based on Chilean life expectancy data from the World Bank.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- Life visualization as a grid of weeks (lived, current, remaining)
+- Gender-based life expectancy from World Bank Open Data
+- Dark/light theme support
+- Downloadable posters (landscape/portrait, light/dark themes) at 2K resolution
+- Confetti celebration when you've exceeded average life expectancy
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React 19
+- Vite 7
+- Tailwind CSS 4
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Development
+
+```bash
+yarn install
+yarn dev
+```
+
+## Production
+
+```bash
+yarn build
+yarn preview
+```
+
+## Docker
+
+```bash
+docker build -t weeks-of-life .
+docker run -p 80:80 weeks-of-life
+```
+
+## License
+
+MIT
