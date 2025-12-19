@@ -13,7 +13,6 @@ function getCellSize() {
 }
 
 export default function WeekGrid({ stats, sex }) {
-  const [showHoverData, setShowHoverData] = useState(false);
   const [hoverWeek, setHoverWeek] = useState(null);
   const [cellSize, setCellSize] = useState(getCellSize);
 
@@ -31,20 +30,21 @@ export default function WeekGrid({ stats, sex }) {
 
   const handleHover = (weekNumber) => {
     setHoverWeek(weekNumber);
-    setShowHoverData(true);
   };
 
   const handleLeave = () => {
-    setShowHoverData(false);
+    setHoverWeek(null);
   };
 
-  const getHoverText = () => {
-    if (hoverWeek >= stats.totalWeeks && hoverWeek < stats.weeksLived)
-      return " A bonus week beyond expectancy";
-    if (hoverWeek === stats.midpointWeek) return " The midpoint of your life";
-    if (hoverWeek < stats.weeksLived) return " A week from your past";
-    if (hoverWeek === stats.weeksLived) return " Your current week";
-    return " A week in your potential future";
+  const displayWeek = hoverWeek ?? stats.weeksLived;
+
+  const getWeekText = (week) => {
+    if (week >= stats.totalWeeks && week < stats.weeksLived)
+      return "A bonus week beyond expectancy";
+    if (week === stats.midpointWeek) return "The midpoint of your life";
+    if (week < stats.weeksLived) return "A week from your past";
+    if (week === stats.weeksLived) return "Your current week";
+    return "A week in your potential future";
   };
 
   return (
@@ -82,11 +82,9 @@ export default function WeekGrid({ stats, sex }) {
         ))}
       </div>
 
-      {showHoverData && (
-        <div className="mt-4 text-sm text-gray-600">
-          Week {hoverWeek + 1}:{getHoverText()}
-        </div>
-      )}
+      <div className="mt-4 text-sm text-gray-600">
+        Week {displayWeek + 1}: {getWeekText(displayWeek)}
+      </div>
 
       <Legend hasExtra={stats.extraWeeks > 0} />
       <PosterDownload stats={stats} sex={sex} />
