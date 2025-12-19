@@ -1,21 +1,38 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { formatNumber } from "../utils/format";
 
 export default function PosterDownload({ stats, sex }) {
   const [downloading, setDownloading] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
 
-  const generatePosterSVG = (format) => {
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const generatePosterSVG = (format, theme) => {
     if (!stats) return null;
 
     const is16x9 = format === "16x9";
+    const isDark = theme === "dark";
     // 2K resolution: 2560×1440 landscape, 1440×2560 portrait
     const width = is16x9 ? 2560 : 1440;
     const height = is16x9 ? 1440 : 2560;
 
     const pastColor = sex === "female" ? "#fb7185" : "#38bdf8";
-    const futureColor = "#e5e7eb";
+    const futureColor = isDark ? "#f3f4f6" : "#e5e7eb";
     const currentColor = "#fbbf24";
     const midpointColor = "#ef4444";
+    const bgColor = isDark ? "#111827" : "#fafafa";
+    const titleColor = isDark ? "#f3f4f6" : "#1f2937";
+    const subtitleColor = isDark ? "#9ca3af" : "#6b7280";
+    const captionColor = isDark ? "#6b7280" : "#9ca3af";
 
     const totalYears = Math.ceil(stats.totalWeeks / 52);
     let cells = "";
@@ -121,32 +138,33 @@ export default function PosterDownload({ stats, sex }) {
 
     return `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
-        <rect width="${width}" height="${height}" fill="#fafafa"/>
+        <rect width="${width}" height="${height}" fill="${bgColor}"/>
 
-        <text x="${width / 2}" y="${is16x9 ? 80 : 120}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="${is16x9 ? 64 : 72}" font-weight="600" fill="#1f2937">${title}</text>
-        <text x="${width / 2}" y="${is16x9 ? 140 : 190}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="${is16x9 ? 32 : 36}" fill="#6b7280">${subtitle}</text>
-        <text x="${width / 2}" y="${is16x9 ? 190 : 250}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="${is16x9 ? 28 : 32}" fill="#9ca3af">${lived}</text>
+        <text x="${width / 2}" y="${is16x9 ? 80 : 120}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="${is16x9 ? 64 : 72}" font-weight="600" fill="${titleColor}">${title}</text>
+        <text x="${width / 2}" y="${is16x9 ? 140 : 190}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="${is16x9 ? 32 : 36}" fill="${subtitleColor}">${subtitle}</text>
+        <text x="${width / 2}" y="${is16x9 ? 190 : 250}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="${is16x9 ? 28 : 32}" fill="${captionColor}">${lived}</text>
 
         ${cells}
 
         <rect x="${legendStartX}" y="${legendY}" width="24" height="24" rx="4" fill="${pastColor}"/>
-        <text x="${legendStartX + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="#6b7280">Lived</text>
+        <text x="${legendStartX + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">Lived</text>
 
         <rect x="${legendStartX + legendSpacing}" y="${legendY}" width="24" height="24" rx="4" fill="${currentColor}"/>
-        <text x="${legendStartX + legendSpacing + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="#6b7280">Now</text>
+        <text x="${legendStartX + legendSpacing + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">Now</text>
 
         <rect x="${legendStartX + legendSpacing * 2}" y="${legendY}" width="24" height="24" rx="4" fill="${midpointColor}"/>
-        <text x="${legendStartX + legendSpacing * 2 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="#6b7280">50% of life</text>
+        <text x="${legendStartX + legendSpacing * 2 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">50% of life</text>
 
         <rect x="${legendStartX + legendSpacing * 3}" y="${legendY}" width="24" height="24" rx="4" fill="${futureColor}"/>
-        <text x="${legendStartX + legendSpacing * 3 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="#6b7280">Yet to live</text>
+        <text x="${legendStartX + legendSpacing * 3 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">Yet to live</text>
       </svg>
     `;
   };
 
-  const downloadPoster = async (format) => {
+  const downloadPoster = async (format, theme) => {
     setDownloading(true);
-    const svg = generatePosterSVG(format);
+    setMenuOpen(false);
+    const svg = generatePosterSVG(format, theme);
 
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -164,7 +182,7 @@ export default function PosterDownload({ stats, sex }) {
       URL.revokeObjectURL(url);
 
       const link = document.createElement("a");
-      link.download = `life-in-weeks-${format}.png`;
+      link.download = `life-in-weeks-${format}-${theme}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
       setDownloading(false);
@@ -173,24 +191,46 @@ export default function PosterDownload({ stats, sex }) {
     img.src = url;
   };
 
+  const options = [
+    { format: "16x9", theme: "light", label: "Landscape Light" },
+    { format: "16x9", theme: "dark", label: "Landscape Dark" },
+    { format: "9x16", theme: "light", label: "Portrait Light" },
+    { format: "9x16", theme: "dark", label: "Portrait Dark" },
+  ];
+
   return (
     <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
-      <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">Download poster</p>
-      <div className="flex gap-3">
+      <div className="relative" ref={menuRef}>
         <button
-          onClick={() => downloadPoster("16x9")}
+          onClick={() => setMenuOpen(!menuOpen)}
           disabled={downloading}
-          className="flex-1 px-4 py-2 bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-800 text-sm rounded-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-500"
+          className="w-full px-4 py-2 bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-800 text-sm rounded-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-500 flex items-center justify-center gap-2"
         >
-          16:9 (Landscape)
+          {downloading ? "Downloading..." : "Download poster"}
+          {!downloading && (
+            <svg
+              className={`w-4 h-4 transition-transform ${menuOpen ? "rotate-180" : ""}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          )}
         </button>
-        <button
-          onClick={() => downloadPoster("9x16")}
-          disabled={downloading}
-          className="flex-1 px-4 py-2 bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-800 text-sm rounded-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-500"
-        >
-          9:16 (Portrait)
-        </button>
+        {menuOpen && (
+          <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+            {options.map((opt) => (
+              <button
+                key={`${opt.format}-${opt.theme}`}
+                onClick={() => downloadPoster(opt.format, opt.theme)}
+                className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
