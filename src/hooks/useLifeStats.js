@@ -32,9 +32,14 @@ export function useLifeStats() {
     const lunarCycles = Math.round(daysLived / 29.53);
     const solarTrips = Math.floor(daysLived / 365.25);
 
+    const extraWeeks = Math.max(0, weeksLived - totalWeeks);
+    const displayTotalWeeks = Math.max(totalWeeks, weeksLived);
+
     const newStats = {
       weeksLived,
       totalWeeks,
+      displayTotalWeeks,
+      extraWeeks,
       midpointWeek,
       weeksRemaining,
       percentageLived,

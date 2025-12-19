@@ -27,7 +27,7 @@ export default function WeekGrid({ stats, sex }) {
 
   if (!stats) return null;
 
-  const weeks = Array.from({ length: stats.totalWeeks }, (_, i) => i);
+  const weeks = Array.from({ length: stats.displayTotalWeeks }, (_, i) => i);
 
   const handleHover = (weekNumber) => {
     setHoverWeek(weekNumber);
@@ -39,6 +39,8 @@ export default function WeekGrid({ stats, sex }) {
   };
 
   const getHoverText = () => {
+    if (hoverWeek >= stats.totalWeeks && hoverWeek < stats.weeksLived)
+      return " A bonus week beyond expectancy";
     if (hoverWeek === stats.midpointWeek) return " The midpoint of your life";
     if (hoverWeek < stats.weeksLived) return " A week from your past";
     if (hoverWeek === stats.weeksLived) return " Your current week";
@@ -73,6 +75,7 @@ export default function WeekGrid({ stats, sex }) {
             isPast={weekNumber < stats.weeksLived}
             isCurrent={weekNumber === stats.weeksLived}
             isMidpoint={weekNumber === stats.midpointWeek}
+            isExtra={weekNumber >= stats.totalWeeks && weekNumber < stats.weeksLived}
             sex={sex}
             onHover={handleHover}
             onLeave={handleLeave}
@@ -86,7 +89,7 @@ export default function WeekGrid({ stats, sex }) {
         </div>
       )}
 
-      <Legend sex={sex} />
+      <Legend sex={sex} hasExtra={stats.extraWeeks > 0} />
       <PosterDownload stats={stats} sex={sex} />
     </div>
   );

@@ -1,4 +1,4 @@
-export default function Legend({ sex }) {
+export default function Legend({ sex, hasExtra }) {
   const colorClass = sex === "female" ? "bg-rose-400" : "bg-sky-400";
 
   return (
@@ -19,6 +19,12 @@ export default function Legend({ sex }) {
         <div className="w-3 h-3 bg-gray-200 rounded-sm mr-2"></div>
         <span className="text-gray-600">Yet to live</span>
       </div>
+      {hasExtra && (
+        <div className="flex items-center">
+          <div className="w-3 h-3 bg-emerald-400 rounded-sm mr-2"></div>
+          <span className="text-gray-600">Bonus weeks</span>
+        </div>
+      )}
     </div>
   );
 }

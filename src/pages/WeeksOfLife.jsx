@@ -1,4 +1,5 @@
 import { useState } from "react";
+import confetti from "canvas-confetti";
 import { useLifeStats } from "../hooks/useLifeStats";
 import InputForm from "../components/InputForm";
 import WeekGrid from "../components/WeekGrid";
@@ -7,6 +8,34 @@ import ChileanContext from "../components/stats/ChileanContext";
 import CosmicPerspective from "../components/stats/CosmicPerspective";
 import NaturalWorld from "../components/stats/NaturalWorld";
 
+function fireConfetti() {
+  const duration = 3000;
+  const end = Date.now() + duration;
+
+  const frame = () => {
+    confetti({
+      particleCount: 3,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0, y: 0.6 },
+      colors: ["#10b981", "#34d399", "#6ee7b7"],
+    });
+    confetti({
+      particleCount: 3,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1, y: 0.6 },
+      colors: ["#10b981", "#34d399", "#6ee7b7"],
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  };
+
+  frame();
+}
+
 export default function WeeksOfLife() {
   const [birthdate, setBirthdate] = useState("");
   const [sex, setSex] = useState("");
@@ -14,7 +43,10 @@ export default function WeeksOfLife() {
 
   const handleSubmit = () => {
     if (birthdate && sex) {
-      calculateStats(birthdate, sex);
+      const result = calculateStats(birthdate, sex);
+      if (result.extraWeeks > 0) {
+        fireConfetti();
+      }
     }
   };
 

@@ -33,6 +33,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react", "npm:19.2.7"],\
           ["@types/react-dom", "virtual:29ed2a4ac999b00adb4b3bca4b8e822845edcffbb1eb569dd6957045ca31354deda1508dbb29c03aa1c95b5304dce5c0f716c0530d01c1ab633088561210525e#npm:19.2.3"],\
           ["@vitejs/plugin-react", "virtual:29ed2a4ac999b00adb4b3bca4b8e822845edcffbb1eb569dd6957045ca31354deda1508dbb29c03aa1c95b5304dce5c0f716c0530d01c1ab633088561210525e#npm:5.1.2"],\
+          ["canvas-confetti", "npm:1.9.4"],\
           ["eslint", "virtual:29ed2a4ac999b00adb4b3bca4b8e822845edcffbb1eb569dd6957045ca31354deda1508dbb29c03aa1c95b5304dce5c0f716c0530d01c1ab633088561210525e#npm:9.39.2"],\
           ["eslint-plugin-react-hooks", "virtual:29ed2a4ac999b00adb4b3bca4b8e822845edcffbb1eb569dd6957045ca31354deda1508dbb29c03aa1c95b5304dce5c0f716c0530d01c1ab633088561210525e#npm:7.0.1"],\
           ["eslint-plugin-react-refresh", "virtual:29ed2a4ac999b00adb4b3bca4b8e822845edcffbb1eb569dd6957045ca31354deda1508dbb29c03aa1c95b5304dce5c0f716c0530d01c1ab633088561210525e#npm:0.4.26"],\
@@ -1508,6 +1509,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/caniuse-lite-npm-1.0.30001760-c4aa807132-10c0.zip/node_modules/caniuse-lite/",\
         "packageDependencies": [\
           ["caniuse-lite", "npm:1.0.30001760"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["canvas-confetti", [\
+      ["npm:1.9.4", {\
+        "packageLocation": "../../.yarn/berry/cache/canvas-confetti-npm-1.9.4-72089dd1f5-10c0.zip/node_modules/canvas-confetti/",\
+        "packageDependencies": [\
+          ["canvas-confetti", "npm:1.9.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3241,6 +3251,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react", "npm:19.2.7"],\
           ["@types/react-dom", "virtual:29ed2a4ac999b00adb4b3bca4b8e822845edcffbb1eb569dd6957045ca31354deda1508dbb29c03aa1c95b5304dce5c0f716c0530d01c1ab633088561210525e#npm:19.2.3"],\
           ["@vitejs/plugin-react", "virtual:29ed2a4ac999b00adb4b3bca4b8e822845edcffbb1eb569dd6957045ca31354deda1508dbb29c03aa1c95b5304dce5c0f716c0530d01c1ab633088561210525e#npm:5.1.2"],\
+          ["canvas-confetti", "npm:1.9.4"],\
           ["eslint", "virtual:29ed2a4ac999b00adb4b3bca4b8e822845edcffbb1eb569dd6957045ca31354deda1508dbb29c03aa1c95b5304dce5c0f716c0530d01c1ab633088561210525e#npm:9.39.2"],\
           ["eslint-plugin-react-hooks", "virtual:29ed2a4ac999b00adb4b3bca4b8e822845edcffbb1eb569dd6957045ca31354deda1508dbb29c03aa1c95b5304dce5c0f716c0530d01c1ab633088561210525e#npm:7.0.1"],\
           ["eslint-plugin-react-refresh", "virtual:29ed2a4ac999b00adb4b3bca4b8e822845edcffbb1eb569dd6957045ca31354deda1508dbb29c03aa1c95b5304dce5c0f716c0530d01c1ab633088561210525e#npm:0.4.26"],\

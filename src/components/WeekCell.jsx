@@ -5,16 +5,19 @@ function WeekCell({
   isPast,
   isCurrent,
   isMidpoint,
+  isExtra,
   sex,
   onHover,
   onLeave,
 }) {
   let innerClass = "rounded-sm transition-colors w-[var(--cell-size)] h-[var(--cell-size)] ";
 
-  if (isMidpoint) {
-    innerClass += "bg-red-500 ring-1 ring-red-300";
-  } else if (isCurrent) {
+  if (isCurrent) {
     innerClass += "bg-amber-400 animate-pulse";
+  } else if (isExtra) {
+    innerClass += "bg-emerald-400";
+  } else if (isMidpoint) {
+    innerClass += "bg-red-500 ring-1 ring-red-300";
   } else if (isPast) {
     innerClass += sex === "female" ? "bg-rose-400" : "bg-sky-400";
   } else {
