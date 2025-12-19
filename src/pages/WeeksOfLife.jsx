@@ -79,7 +79,7 @@ export default function WeeksOfLife() {
       <div className="w-[90%] mx-auto">
         <div className="flex justify-between items-start mb-1">
           <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
-            Life in weeks
+            Weeks of Life
           </h1>
           <ThemeToggle theme={theme} onToggle={toggleTheme} />
         </div>
