@@ -4,7 +4,9 @@ import { formatNumber } from "../utils/format";
 export default function PosterDownload({ stats, sex }) {
   const [downloading, setDownloading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openUpward, setOpenUpward] = useState(false);
   const menuRef = useRef(null);
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -15,6 +17,16 @@ export default function PosterDownload({ stats, sex }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleToggleMenu = () => {
+    if (!menuOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const menuHeight = 176; // 4 options × 44px approx
+      setOpenUpward(spaceBelow < menuHeight);
+    }
+    setMenuOpen(!menuOpen);
+  };
 
   const generatePosterSVG = (format, theme) => {
     if (!stats) return null;
@@ -29,12 +41,14 @@ export default function PosterDownload({ stats, sex }) {
     const futureColor = isDark ? "#f3f4f6" : "#e5e7eb";
     const currentColor = "#10B981";
     const midpointColor = "#EC4899";
+    const extraColor = "#F5D02F";
     const bgColor = isDark ? "#111827" : "#fafafa";
     const titleColor = isDark ? "#f3f4f6" : "#1f2937";
     const subtitleColor = isDark ? "#9ca3af" : "#6b7280";
     const captionColor = isDark ? "#6b7280" : "#9ca3af";
 
-    const totalYears = Math.ceil(stats.totalWeeks / 52);
+    const totalYears = Math.ceil(stats.displayTotalWeeks / 52);
+    const hasExtra = stats.extraWeeks > 0;
     let cells = "";
     let gridWidth, gridHeight, startX, startY, cellSize, gap;
 
@@ -42,7 +56,7 @@ export default function PosterDownload({ stats, sex }) {
       // Landscape: wide grid, fills left-to-right then next row
       // ~104 cols × ~45 rows (2 years per row)
       const cols = 104;
-      const rows = Math.ceil(stats.totalWeeks / cols);
+      const rows = Math.ceil(stats.displayTotalWeeks / cols);
 
       const gridPadding = 120;
       const availableWidth = width - gridPadding * 2;
@@ -63,15 +77,20 @@ export default function PosterDownload({ stats, sex }) {
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
           const weekNumber = row * cols + col;
-          if (weekNumber < stats.totalWeeks) {
+          if (weekNumber < stats.displayTotalWeeks) {
             const x = startX + col * (cellSize + gap);
             const y = startY + row * (cellSize + gap);
 
             let color;
-            if (weekNumber === stats.midpointWeek) {
-              color = midpointColor;
-            } else if (weekNumber === stats.weeksLived) {
+            if (weekNumber === stats.weeksLived) {
               color = currentColor;
+            } else if (
+              weekNumber >= stats.totalWeeks &&
+              weekNumber < stats.weeksLived
+            ) {
+              color = extraColor;
+            } else if (weekNumber === stats.midpointWeek) {
+              color = midpointColor;
             } else if (weekNumber < stats.weeksLived) {
               color = pastColor;
             } else {
@@ -107,15 +126,20 @@ export default function PosterDownload({ stats, sex }) {
       for (let year = 0; year < rows; year++) {
         for (let week = 0; week < cols; week++) {
           const weekNumber = year * 52 + week;
-          if (weekNumber < stats.totalWeeks) {
+          if (weekNumber < stats.displayTotalWeeks) {
             const x = startX + week * (cellSize + gap);
             const y = startY + year * (cellSize + gap);
 
             let color;
-            if (weekNumber === stats.midpointWeek) {
-              color = midpointColor;
-            } else if (weekNumber === stats.weeksLived) {
+            if (weekNumber === stats.weeksLived) {
               color = currentColor;
+            } else if (
+              weekNumber >= stats.totalWeeks &&
+              weekNumber < stats.weeksLived
+            ) {
+              color = extraColor;
+            } else if (weekNumber === stats.midpointWeek) {
+              color = midpointColor;
             } else if (weekNumber < stats.weeksLived) {
               color = pastColor;
             } else {
@@ -133,8 +157,16 @@ export default function PosterDownload({ stats, sex }) {
     const lived = `${formatNumber(stats.weeksLived)} weeks lived (${stats.percentageLived}%)`;
 
     const legendY = startY + gridHeight + 50;
-    const legendSpacing = is16x9 ? 220 : 160;
-    const legendStartX = (width - 4 * legendSpacing) / 2;
+    const legendItems = hasExtra ? 5 : 4;
+    const legendSpacing = is16x9 ? 200 : 140;
+    const legendStartX = (width - legendItems * legendSpacing) / 2;
+
+    const bonusLegend = hasExtra
+      ? `
+        <rect x="${legendStartX + legendSpacing * 4}" y="${legendY}" width="24" height="24" rx="4" fill="${extraColor}"/>
+        <text x="${legendStartX + legendSpacing * 4 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">Bonus</text>
+      `
+      : "";
 
     return `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
@@ -157,6 +189,8 @@ export default function PosterDownload({ stats, sex }) {
 
         <rect x="${legendStartX + legendSpacing * 3}" y="${legendY}" width="24" height="24" rx="4" fill="${futureColor}"/>
         <text x="${legendStartX + legendSpacing * 3 + 34}" y="${legendY + 18}" font-family="system-ui, sans-serif" font-size="20" fill="${subtitleColor}">Yet to live</text>
+
+        ${bonusLegend}
       </svg>
     `;
   };
@@ -202,7 +236,8 @@ export default function PosterDownload({ stats, sex }) {
     <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
       <div className="relative" ref={menuRef}>
         <button
-          onClick={() => setMenuOpen(!menuOpen)}
+          ref={buttonRef}
+          onClick={handleToggleMenu}
           disabled={downloading}
           className="w-full px-4 py-2 bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-800 text-sm rounded-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-500 flex items-center justify-center gap-2"
         >
@@ -219,7 +254,11 @@ export default function PosterDownload({ stats, sex }) {
           )}
         </button>
         {menuOpen && (
-          <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div
+            className={`absolute left-0 right-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden ${
+              openUpward ? "bottom-full mb-2" : "top-full mt-2"
+            }`}
+          >
             {options.map((opt) => (
               <button
                 key={`${opt.format}-${opt.theme}`}
