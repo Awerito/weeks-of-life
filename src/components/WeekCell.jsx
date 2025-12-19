@@ -23,11 +23,17 @@ function WeekCell({
     innerClass += "bg-gray-200 dark:bg-gray-100";
   }
 
+  const handleTouch = (e) => {
+    e.preventDefault();
+    onHover(weekNumber);
+  };
+
   return (
     <div
       className="w-[var(--total-size)] h-[var(--total-size)] p-[var(--gap-half)]"
       onMouseEnter={() => onHover(weekNumber)}
       onMouseLeave={onLeave}
+      onTouchStart={handleTouch}
     >
       <div className={innerClass} />
     </div>

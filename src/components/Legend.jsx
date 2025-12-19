@@ -1,6 +1,6 @@
 export default function Legend({ hasExtra }) {
   return (
-    <div className="flex flex-wrap mt-6 text-sm gap-4">
+    <div className="hidden md:flex flex-wrap mt-6 text-sm gap-4">
       <div className="flex items-center">
         <div className="w-3 h-3 bg-[#3B82F6] rounded-sm mr-2"></div>
         <span className="text-gray-600 dark:text-gray-300">Lived</span>

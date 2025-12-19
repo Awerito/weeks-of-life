@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import WeekCell from "./WeekCell";
+import WeekGridHeader from "./WeekGridHeader";
 import Legend from "./Legend";
 import PosterDownload from "./PosterDownload";
 
@@ -10,6 +11,15 @@ function getCellSize() {
   if (height <= 720) return 8;
   if (height <= 1080) return 13;
   return 18; // 2K+
+}
+
+function getWeekText(week, stats) {
+  if (week >= stats.totalWeeks && week < stats.weeksLived)
+    return "A bonus week beyond expectancy";
+  if (week === stats.midpointWeek) return "The midpoint of your life";
+  if (week < stats.weeksLived) return "A week from your past";
+  if (week === stats.weeksLived) return "Your current week";
+  return "A week in your potential future";
 }
 
 export default function WeekGrid({ stats, sex }) {
@@ -27,36 +37,17 @@ export default function WeekGrid({ stats, sex }) {
   if (!stats) return null;
 
   const weeks = Array.from({ length: stats.displayTotalWeeks }, (_, i) => i);
-
-  const handleHover = (weekNumber) => {
-    setHoverWeek(weekNumber);
-  };
-
-  const handleLeave = () => {
-    setHoverWeek(null);
-  };
-
   const displayWeek = hoverWeek ?? stats.weeksLived;
-
-  const getWeekText = (week) => {
-    if (week >= stats.totalWeeks && week < stats.weeksLived)
-      return "A bonus week beyond expectancy";
-    if (week === stats.midpointWeek) return "The midpoint of your life";
-    if (week < stats.weeksLived) return "A week from your past";
-    if (week === stats.weeksLived) return "Your current week";
-    return "A week in your potential future";
-  };
+  const weekText = getWeekText(displayWeek, stats);
 
   return (
     <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
-      <h2 className="text-lg font-medium mb-2 text-gray-800 dark:text-gray-100">
-        Your life in weeks
-      </h2>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-        Life expectancy in Chile:{" "}
-        <span className="font-medium">{stats.lifeExpectancyYears.toFixed(1)} years</span>{" "}
-        ({sex === "female" ? "Female" : "Male"})
-      </p>
+      <WeekGridHeader
+        stats={stats}
+        sex={sex}
+        displayWeek={displayWeek}
+        weekText={weekText}
+      />
 
       <div
         className="grid w-full"
@@ -76,14 +67,15 @@ export default function WeekGrid({ stats, sex }) {
             isCurrent={weekNumber === stats.weeksLived}
             isMidpoint={weekNumber === stats.midpointWeek}
             isExtra={weekNumber >= stats.totalWeeks && weekNumber < stats.weeksLived}
-            onHover={handleHover}
-            onLeave={handleLeave}
+            onHover={setHoverWeek}
+            onLeave={() => setHoverWeek(null)}
           />
         ))}
       </div>
 
-      <div className="mt-4 text-sm text-gray-600 dark:text-gray-300">
-        Week {displayWeek + 1}: {getWeekText(displayWeek)}
+      {/* Desktop: week message below grid */}
+      <div className="hidden md:block mt-4 text-sm text-gray-600 dark:text-gray-300">
+        Week {displayWeek + 1}: {weekText}
       </div>
 
       <Legend hasExtra={stats.extraWeeks > 0} />
