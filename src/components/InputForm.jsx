@@ -4,10 +4,12 @@ export default function InputForm({ birthdate, sex, onBirthdateChange, onSexChan
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="birthdate" className="block text-sm font-medium text-gray-700 mb-2">
           Enter your birth date
         </label>
         <input
+          id="birthdate"
+          name="birthdate"
           type="date"
           className="w-full p-3 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-gray-400 focus:border-transparent"
           value={birthdate}
@@ -16,13 +18,14 @@ export default function InputForm({ birthdate, sex, onBirthdateChange, onSexChan
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <span id="sex-label" className="block text-sm font-medium text-gray-700 mb-2">
           Select your sex
-        </label>
-        <div className="flex gap-4">
+        </span>
+        <div className="flex gap-4" role="group" aria-labelledby="sex-label">
           <button
             type="button"
             onClick={() => onSexChange("male")}
+            aria-pressed={sex === "male"}
             className={`flex-1 p-3 rounded-lg border-2 transition-all ${
               sex === "male"
                 ? "border-sky-400 bg-sky-50 text-sky-700"
@@ -34,6 +37,7 @@ export default function InputForm({ birthdate, sex, onBirthdateChange, onSexChan
           <button
             type="button"
             onClick={() => onSexChange("female")}
+            aria-pressed={sex === "female"}
             className={`flex-1 p-3 rounded-lg border-2 transition-all ${
               sex === "female"
                 ? "border-rose-400 bg-rose-50 text-rose-700"
