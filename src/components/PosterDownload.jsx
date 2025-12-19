@@ -3,15 +3,23 @@ import { formatNumber } from "../utils/format";
 
 export default function PosterDownload({ stats, sex }) {
   const [downloading, setDownloading] = useState(false);
+  const [sharing, setSharing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [shareMenuOpen, setShareMenuOpen] = useState(false);
   const [openUpward, setOpenUpward] = useState(false);
+  const [shareOpenUpward, setShareOpenUpward] = useState(false);
   const menuRef = useRef(null);
+  const shareMenuRef = useRef(null);
   const buttonRef = useRef(null);
+  const shareButtonRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setMenuOpen(false);
+      }
+      if (shareMenuRef.current && !shareMenuRef.current.contains(e.target)) {
+        setShareMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -26,6 +34,18 @@ export default function PosterDownload({ stats, sex }) {
       setOpenUpward(spaceBelow < menuHeight);
     }
     setMenuOpen(!menuOpen);
+    setShareMenuOpen(false);
+  };
+
+  const handleToggleShareMenu = () => {
+    if (!shareMenuOpen && shareButtonRef.current) {
+      const rect = shareButtonRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const menuHeight = 176;
+      setShareOpenUpward(spaceBelow < menuHeight);
+    }
+    setShareMenuOpen(!shareMenuOpen);
+    setMenuOpen(false);
   };
 
   const generatePosterSVG = (format, theme) => {
@@ -225,6 +245,88 @@ export default function PosterDownload({ stats, sex }) {
     img.src = url;
   };
 
+  const generateImageBlob = (format, theme) => {
+    return new Promise((resolve) => {
+      const svg = generatePosterSVG(format, theme);
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      const is16x9 = format === "16x9";
+      canvas.width = is16x9 ? 2560 : 1440;
+      canvas.height = is16x9 ? 1440 : 2560;
+
+      const img = new Image();
+      const svgBlob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(svgBlob);
+
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+        URL.revokeObjectURL(url);
+        canvas.toBlob((blob) => resolve(blob), "image/png");
+      };
+
+      img.src = url;
+    });
+  };
+
+  const sharePoster = async (format, theme) => {
+    setSharing(true);
+    setShareMenuOpen(false);
+
+    try {
+      const blob = await generateImageBlob(format, theme);
+
+      if (!blob) {
+        alert("Failed to generate image");
+        setSharing(false);
+        return;
+      }
+
+      const file = new File([blob], `life-in-weeks-${format}-${theme}.png`, {
+        type: "image/png",
+      });
+
+      const shareData = {
+        title: "My Life in Weeks",
+        text: `${stats.weeksLived} weeks lived, ${stats.percentageLived}% of my life expectancy`,
+        files: [file],
+      };
+
+      // Check if Web Share API with files is supported
+      if (navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+      } else if (navigator.share) {
+        // Fallback: share without file (just text/url)
+        await navigator.share({
+          title: "My Life in Weeks",
+          text: `${stats.weeksLived} weeks lived, ${stats.percentageLived}% of my life expectancy`,
+          url: window.location.href,
+        });
+      } else if (navigator.clipboard && window.ClipboardItem) {
+        // Fallback: copy image to clipboard
+        await navigator.clipboard.write([
+          new ClipboardItem({ "image/png": blob }),
+        ]);
+        alert("Image copied to clipboard!");
+      } else {
+        // Last resort: download the file
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.download = `life-in-weeks-${format}-${theme}.png`;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+        alert("Image saved! You can now share it from your gallery.");
+      }
+    } catch (err) {
+      if (err.name !== "AbortError") {
+        console.error("Share failed:", err);
+        alert("Couldn't share. Try downloading the image instead.");
+      }
+    }
+
+    setSharing(false);
+  };
+
   const options = [
     { format: "16x9", theme: "light", label: "Landscape Light" },
     { format: "16x9", theme: "dark", label: "Landscape Dark" },
@@ -234,42 +336,84 @@ export default function PosterDownload({ stats, sex }) {
 
   return (
     <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
-      <div className="relative" ref={menuRef}>
-        <button
-          ref={buttonRef}
-          onClick={handleToggleMenu}
-          disabled={downloading}
-          className="w-full px-4 py-2 bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-800 text-sm rounded-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-500 flex items-center justify-center gap-2"
-        >
-          {downloading ? "Downloading..." : "Download poster"}
-          {!downloading && (
-            <svg
-              className={`w-4 h-4 transition-transform ${menuOpen ? "rotate-180" : ""}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          )}
-        </button>
-        {menuOpen && (
-          <div
-            className={`absolute left-0 right-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden ${
-              openUpward ? "bottom-full mb-2" : "top-full mt-2"
-            }`}
+      <div className="flex gap-2">
+        {/* Download button */}
+        <div className="relative flex-1" ref={menuRef}>
+          <button
+            ref={buttonRef}
+            onClick={handleToggleMenu}
+            disabled={downloading}
+            className="w-full px-4 py-2 bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-800 text-sm rounded-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-500 flex items-center justify-center gap-2"
           >
-            {options.map((opt) => (
-              <button
-                key={`${opt.format}-${opt.theme}`}
-                onClick={() => downloadPoster(opt.format, opt.theme)}
-                className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            {downloading ? "..." : "Download"}
+            {!downloading && (
+              <svg
+                className={`w-4 h-4 transition-transform ${menuOpen ? "rotate-180" : ""}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        )}
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            )}
+          </button>
+          {menuOpen && (
+            <div
+              className={`absolute left-0 right-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden z-10 ${
+                openUpward ? "bottom-full mb-2" : "top-full mt-2"
+              }`}
+            >
+              {options.map((opt) => (
+                <button
+                  key={`${opt.format}-${opt.theme}`}
+                  onClick={() => downloadPoster(opt.format, opt.theme)}
+                  className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Share button */}
+        <div className="relative flex-1" ref={shareMenuRef}>
+          <button
+            ref={shareButtonRef}
+            onClick={handleToggleShareMenu}
+            disabled={sharing}
+            className="w-full px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400 flex items-center justify-center gap-2"
+          >
+            {sharing ? "..." : "Share"}
+            {!sharing && (
+              <svg
+                className={`w-4 h-4 transition-transform ${shareMenuOpen ? "rotate-180" : ""}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            )}
+          </button>
+          {shareMenuOpen && (
+            <div
+              className={`absolute left-0 right-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden z-10 ${
+                shareOpenUpward ? "bottom-full mb-2" : "top-full mt-2"
+              }`}
+            >
+              {options.map((opt) => (
+                <button
+                  key={`share-${opt.format}-${opt.theme}`}
+                  onClick={() => sharePoster(opt.format, opt.theme)}
+                  className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
