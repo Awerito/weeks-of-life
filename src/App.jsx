@@ -1,4 +1,4 @@
-import WeeksOfLife from "./WeeksOfLife";
+import WeeksOfLife from "./pages/WeeksOfLife";
 
 function App() {
   return <WeeksOfLife />;
