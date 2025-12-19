@@ -56,10 +56,12 @@ function fireConfetti() {
   frame();
 }
 
+const initialData = getSavedData();
+
 export default function WeeksOfLife() {
-  const savedData = getSavedData();
-  const [birthdate, setBirthdate] = useState(savedData?.birthdate ?? "");
-  const [sex, setSex] = useState(savedData?.sex ?? "");
+  const [birthdate, setBirthdate] = useState(initialData?.birthdate ?? "");
+  const [sex, setSex] = useState(initialData?.sex ?? "");
+  const [hasInitialData, setHasInitialData] = useState(!!initialData);
   const { theme, toggle: toggleTheme } = useTheme();
   const hasRestoredRef = useRef(false);
 
@@ -68,17 +70,15 @@ export default function WeeksOfLife() {
     chileanStats?.lifeExpectancy
   );
 
-  // Auto-calculate stats from restored data once chileanStats is ready
+  // Auto-calculate stats ONLY if we had saved data at mount
   useEffect(() => {
-    if (hasRestoredRef.current || loadingChilean || !chileanStats) return;
-    if (birthdate && sex) {
-      hasRestoredRef.current = true;
-      const result = calculateStats(birthdate, sex);
-      if (result.extraWeeks > 0) {
-        fireConfetti();
-      }
+    if (!initialData || hasRestoredRef.current || loadingChilean || !chileanStats) return;
+    hasRestoredRef.current = true;
+    const result = calculateStats(initialData.birthdate, initialData.sex);
+    if (result.extraWeeks > 0) {
+      fireConfetti();
     }
-  }, [loadingChilean, chileanStats, birthdate, sex, calculateStats]);
+  }, [loadingChilean, chileanStats, calculateStats]);
 
   const handleSubmit = () => {
     if (birthdate && sex) {
@@ -92,14 +92,16 @@ export default function WeeksOfLife() {
 
   const handleReset = () => {
     localStorage.removeItem(STORAGE_KEY);
+    setHasInitialData(false);
     setBirthdate("");
     setSex("");
     reset();
   };
 
   const showResults = stats !== null;
+  const isRestoring = hasInitialData && !showResults;
 
-  if (loadingChilean) {
+  if (loadingChilean || isRestoring) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-gray-500 dark:text-gray-400">Loading data...</div>
