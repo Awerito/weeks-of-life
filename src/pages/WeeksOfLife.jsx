@@ -120,7 +120,7 @@ export default function WeeksOfLife() {
 
         <footer className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700 text-xs text-gray-400 dark:text-gray-500">
           <p>
-            * Data source:{" "}
+            Data source:{" "}
             <a
               href="https://data.worldbank.org/country/chile"
               target="_blank"
@@ -128,6 +128,15 @@ export default function WeeksOfLife() {
               className="underline hover:text-gray-600 dark:hover:text-gray-300"
             >
               World Bank Open Data
+            </a>
+            {" | "}
+            <a
+              href="https://github.com/Awerito"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-600 dark:hover:text-gray-300"
+            >
+              @Awerito
             </a>
           </p>
         </footer>
