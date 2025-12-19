@@ -1,0 +1,212 @@
+[
+  {
+    "person": "Mozart",
+    "achievement": "composed his first symphony",
+    "ageYears": 8,
+    "weekStart": 416
+  },
+  {
+    "person": "Pablo Picasso",
+    "achievement": "painted his first oil painting",
+    "ageYears": 9,
+    "weekStart": 468
+  },
+  {
+    "person": "Pelé",
+    "achievement": "won his first World Cup",
+    "ageYears": 17,
+    "weekStart": 884
+  },
+  {
+    "person": "Bill Gates",
+    "achievement": "founded Microsoft",
+    "ageYears": 19,
+    "weekStart": 988
+  },
+  {
+    "person": "Mark Zuckerberg",
+    "achievement": "launched Facebook",
+    "ageYears": 19,
+    "weekStart": 988
+  },
+  {
+    "person": "Steve Jobs",
+    "achievement": "founded Apple in a garage",
+    "ageYears": 21,
+    "weekStart": 1092
+  },
+  {
+    "person": "Violeta Parra",
+    "achievement": "began collecting Chilean folklore",
+    "ageYears": 35,
+    "weekStart": 1820
+  },
+  {
+    "person": "Albert Einstein",
+    "achievement": "published the theory of special relativity",
+    "ageYears": 26,
+    "weekStart": 1352
+  },
+  {
+    "person": "Gabriela Mistral",
+    "achievement": "won the Nobel Prize in Literature",
+    "ageYears": 56,
+    "weekStart": 2912
+  },
+  {
+    "person": "Pablo Neruda",
+    "achievement": "published 'Twenty Love Poems'",
+    "ageYears": 20,
+    "weekStart": 1040
+  },
+  {
+    "person": "Marie Curie",
+    "achievement": "discovered polonium and radium",
+    "ageYears": 31,
+    "weekStart": 1612
+  },
+  {
+    "person": "Isaac Newton",
+    "achievement": "developed calculus and the law of gravity",
+    "ageYears": 23,
+    "weekStart": 1196
+  },
+  {
+    "person": "Charles Darwin",
+    "achievement": "set sail on the HMS Beagle",
+    "ageYears": 22,
+    "weekStart": 1144
+  },
+  {
+    "person": "Elon Musk",
+    "achievement": "founded SpaceX",
+    "ageYears": 30,
+    "weekStart": 1560
+  },
+  {
+    "person": "Lionel Messi",
+    "achievement": "won his first Ballon d'Or",
+    "ageYears": 22,
+    "weekStart": 1144
+  },
+  {
+    "person": "Frida Kahlo",
+    "achievement": "had the accident that transformed her life and art",
+    "ageYears": 18,
+    "weekStart": 936
+  },
+  {
+    "person": "Vincent van Gogh",
+    "achievement": "decided to become an artist",
+    "ageYears": 27,
+    "weekStart": 1404
+  },
+  {
+    "person": "Arturo Prat",
+    "achievement": "died heroically at the Battle of Iquique",
+    "ageYears": 31,
+    "weekStart": 1612
+  },
+  {
+    "person": "J.K. Rowling",
+    "achievement": "published the first Harry Potter book",
+    "ageYears": 31,
+    "weekStart": 1612
+  },
+  {
+    "person": "Alexis Sánchez",
+    "achievement": "made his debut for the Chilean national team",
+    "ageYears": 17,
+    "weekStart": 884
+  },
+  {
+    "person": "Nicanor Parra",
+    "achievement": "published 'Poems and Antipoems'",
+    "ageYears": 40,
+    "weekStart": 2080
+  },
+  {
+    "person": "Stephen Hawking",
+    "achievement": "was diagnosed with ALS (given 2 years to live)",
+    "ageYears": 21,
+    "weekStart": 1092
+  },
+  {
+    "person": "Nelson Mandela",
+    "achievement": "was released after 27 years in prison",
+    "ageYears": 71,
+    "weekStart": 3692
+  },
+  {
+    "person": "Leonardo da Vinci",
+    "achievement": "painted The Last Supper",
+    "ageYears": 46,
+    "weekStart": 2392
+  },
+  {
+    "person": "Beethoven",
+    "achievement": "composed his Ninth Symphony while completely deaf",
+    "ageYears": 53,
+    "weekStart": 2756
+  },
+  {
+    "person": "Malala Yousafzai",
+    "achievement": "won the Nobel Peace Prize",
+    "ageYears": 17,
+    "weekStart": 884
+  },
+  {
+    "person": "Usain Bolt",
+    "achievement": "broke the 100m world record",
+    "ageYears": 22,
+    "weekStart": 1144
+  },
+  {
+    "person": "Michael Jordan",
+    "achievement": "won his first NBA championship",
+    "ageYears": 28,
+    "weekStart": 1456
+  },
+  {
+    "person": "Simone Biles",
+    "achievement": "won 4 Olympic golds in Rio",
+    "ageYears": 19,
+    "weekStart": 988
+  },
+  {
+    "person": "Shakira",
+    "achievement": "released 'Pies Descalzos' and went international",
+    "ageYears": 18,
+    "weekStart": 936
+  },
+  {
+    "person": "Roberto Bolaño",
+    "achievement": "published 'The Savage Detectives'",
+    "ageYears": 45,
+    "weekStart": 2340
+  },
+  {
+    "person": "Mon Laferte",
+    "achievement": "won her first Latin Grammy",
+    "ageYears": 34,
+    "weekStart": 1768
+  },
+  {
+    "person": "Claudio Bravo (painter)",
+    "achievement": "had his first exhibition in New York",
+    "ageYears": 36,
+    "weekStart": 1872
+  },
+  {
+    "person": "Isabel Allende",
+    "achievement": "published 'The House of the Spirits'",
+    "ageYears": 40,
+    "weekStart": 2080
+  },
+  {
+    "person": "Marcelo Bielsa",
+    "achievement": "became head coach of the Argentine national team",
+    "ageYears": 43,
+    "weekStart": 2236
+  }
+]

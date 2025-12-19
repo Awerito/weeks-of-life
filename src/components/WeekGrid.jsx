@@ -3,6 +3,10 @@ import WeekCell from "./WeekCell";
 import WeekGridHeader from "./WeekGridHeader";
 import Legend from "./Legend";
 import PosterDownload from "./PosterDownload";
+import milestones from "../data/milestones.json";
+
+const DEBUG_MILESTONES = false;
+const milestoneWeeks = new Set(milestones.map((m) => m.weekStart));
 
 const GAP = 2; // px
 
@@ -13,7 +17,17 @@ function getCellSize() {
   return 18; // 2K+
 }
 
+function getMilestoneForWeek(week) {
+  const ageYears = Math.floor(week / 52);
+  const matching = milestones.filter((m) => m.ageYears === ageYears);
+  if (matching.length === 0) return null;
+  return matching.map((m) => `${m.person} ${m.achievement}`).join(" • ");
+}
+
 function getWeekText(week, stats) {
+  const milestone = getMilestoneForWeek(week);
+  if (milestone) return milestone;
+
   if (week >= stats.totalWeeks && week < stats.weeksLived)
     return "A bonus week beyond expectancy";
   if (week === stats.midpointWeek) return "The midpoint of your life";
@@ -66,7 +80,10 @@ export default function WeekGrid({ stats, sex }) {
             isPast={weekNumber < stats.weeksLived}
             isCurrent={weekNumber === stats.weeksLived}
             isMidpoint={weekNumber === stats.midpointWeek}
-            isExtra={weekNumber >= stats.totalWeeks && weekNumber < stats.weeksLived}
+            isExtra={
+              weekNumber >= stats.totalWeeks && weekNumber < stats.weeksLived
+            }
+            hasMilestone={DEBUG_MILESTONES && milestoneWeeks.has(weekNumber)}
             onHover={setHoverWeek}
             onLeave={() => setHoverWeek(null)}
           />

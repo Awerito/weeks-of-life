@@ -6,6 +6,7 @@ function WeekCell({
   isCurrent,
   isMidpoint,
   isExtra,
+  hasMilestone,
   onHover,
   onLeave,
 }) {
@@ -21,6 +22,10 @@ function WeekCell({
     innerClass += "bg-[#3B82F6]";
   } else {
     innerClass += "bg-gray-200 dark:bg-gray-100";
+  }
+
+  if (hasMilestone) {
+    innerClass += " ring-2 ring-red-500";
   }
 
   const handleTouch = (e) => {
