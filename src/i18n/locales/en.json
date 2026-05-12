@@ -18,7 +18,8 @@
     "now": "Now",
     "midpoint": "50%",
     "future": "Future",
-    "bonus": "Bonus weeks"
+    "bonus": "Bonus weeks",
+    "sleep": "Sleeping"
   },
   "grid": {
     "title": "Your life in weeks",
@@ -31,7 +32,11 @@
     "midpoint": "midpoint of your life expectancy",
     "bonusWeek": "bonus week {{number}}",
     "weekLived": "week lived",
-    "weekToLive": "week to live"
+    "weekToLive": "week to live",
+    "sleep": "week spent sleeping (8h/day)"
+  },
+  "sleep": {
+    "toggle": "Show weeks spent sleeping (8h/day)"
   },
   "stats": {
     "lifeNumbers": {

@@ -18,7 +18,8 @@
     "now": "Ahora",
     "midpoint": "50%",
     "future": "Por vivir",
-    "bonus": "Semanas extra"
+    "bonus": "Semanas extra",
+    "sleep": "Durmiendo"
   },
   "grid": {
     "title": "Tu vida en semanas",
@@ -31,7 +32,11 @@
     "midpoint": "mitad de tu esperanza de vida",
     "bonusWeek": "semana extra {{number}}",
     "weekLived": "semana vivida",
-    "weekToLive": "semana por vivir"
+    "weekToLive": "semana por vivir",
+    "sleep": "semana dormida (8 h/día)"
+  },
+  "sleep": {
+    "toggle": "Mostrar semanas dormidas (8 h/día)"
   },
   "stats": {
     "lifeNumbers": {

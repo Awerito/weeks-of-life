@@ -25,7 +25,7 @@ function getMilestoneForWeek(week) {
   return matching.map((m) => `${m.person} ${m.achievement}`).join(" • ");
 }
 
-function getWeekText(week, stats, t) {
+function getWeekText(week, stats, t, sleepLimit) {
   const milestone = getMilestoneForWeek(week);
   if (milestone) return milestone;
 
@@ -34,12 +34,13 @@ function getWeekText(week, stats, t) {
     return t("weekText.bonusWeek", { number: bonusNumber });
   }
   if (week === stats.midpointWeek) return t("weekText.midpoint");
+  if (week < sleepLimit) return t("weekText.sleep");
   if (week < stats.weeksLived) return t("weekText.weekLived");
   if (week === stats.weeksLived) return t("weekText.currentWeek");
   return t("weekText.weekToLive");
 }
 
-export default function WeekGrid({ stats, sex }) {
+export default function WeekGrid({ stats, sex, showSleep }) {
   const { t } = useTranslation();
   const [hoverWeek, setHoverWeek] = useState(null);
   const [cellSize, setCellSize] = useState(getCellSize);
@@ -56,7 +57,8 @@ export default function WeekGrid({ stats, sex }) {
 
   const weeks = Array.from({ length: stats.displayTotalWeeks }, (_, i) => i);
   const displayWeek = hoverWeek ?? stats.weeksLived;
-  const weekText = getWeekText(displayWeek, stats, t);
+  const sleepLimit = showSleep ? stats.sleepWeeks : 0;
+  const weekText = getWeekText(displayWeek, stats, t, sleepLimit);
 
   return (
     <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
@@ -87,6 +89,7 @@ export default function WeekGrid({ stats, sex }) {
             isExtra={
               weekNumber >= stats.totalWeeks && weekNumber < stats.weeksLived
             }
+            isSleep={weekNumber < sleepLimit}
             hasMilestone={DEBUG_MILESTONES && milestoneWeeks.has(weekNumber)}
             onHover={setHoverWeek}
             onLeave={() => setHoverWeek(null)}
@@ -99,7 +102,7 @@ export default function WeekGrid({ stats, sex }) {
         {t("grid.week", { number: displayWeek + 1, text: weekText })}
       </div>
 
-      <Legend hasExtra={stats.extraWeeks > 0} />
+      <Legend hasExtra={stats.extraWeeks > 0} showSleep={showSleep} />
       <PosterDownload stats={stats} sex={sex} />
     </div>
   );

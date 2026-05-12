@@ -8,6 +8,7 @@ import InputForm from "../components/InputForm";
 import WeekGrid from "../components/WeekGrid";
 import ThemeToggle from "../components/ThemeToggle";
 import LanguageToggle from "../components/LanguageToggle";
+import SleepToggle from "../components/SleepToggle";
 import BuyMeCoffee from "../components/BuyMeCoffee";
 import LifeNumbers from "../components/stats/LifeNumbers";
 import ChileanContext from "../components/stats/ChileanContext";
@@ -66,17 +67,24 @@ export default function WeeksOfLife() {
   const [birthdate, setBirthdate] = useState(initialData?.birthdate ?? "");
   const [sex, setSex] = useState(initialData?.sex ?? "");
   const [hasInitialData, setHasInitialData] = useState(!!initialData);
+  const [showSleep, setShowSleep] = useState(false);
   const { theme, toggle: toggleTheme } = useTheme();
   const hasRestoredRef = useRef(false);
 
   const { stats: chileanStats, loading: loadingChilean } = useChileanStats();
   const { stats, calculateStats, reset } = useLifeStats(
-    chileanStats?.lifeExpectancy
+    chileanStats?.lifeExpectancy,
   );
 
   // Auto-calculate stats ONLY if we had saved data at mount
   useEffect(() => {
-    if (!initialData || hasRestoredRef.current || loadingChilean || !chileanStats) return;
+    if (
+      !initialData ||
+      hasRestoredRef.current ||
+      loadingChilean ||
+      !chileanStats
+    )
+      return;
     hasRestoredRef.current = true;
     const result = calculateStats(initialData.birthdate, initialData.sex);
     if (result.extraWeeks > 0) {
@@ -108,7 +116,9 @@ export default function WeeksOfLife() {
   if (loadingChilean || isRestoring) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-gray-500 dark:text-gray-400">{t("app.loading")}</div>
+        <div className="text-gray-500 dark:text-gray-400">
+          {t("app.loading")}
+        </div>
       </div>
     );
   }
@@ -122,6 +132,10 @@ export default function WeeksOfLife() {
           </h1>
           <div className="flex gap-2">
             <LanguageToggle />
+            <SleepToggle
+              active={showSleep}
+              onToggle={() => setShowSleep((v) => !v)}
+            />
             <BuyMeCoffee />
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
           </div>
@@ -145,7 +159,7 @@ export default function WeeksOfLife() {
           />
         ) : (
           <>
-            <WeekGrid stats={stats} sex={sex} />
+            <WeekGrid stats={stats} sex={sex} showSleep={showSleep} />
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
               <LifeNumbers stats={stats} />
               <ChileanContext stats={stats} chileanStats={chileanStats} />

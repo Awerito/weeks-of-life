@@ -6,11 +6,13 @@ function WeekCell({
   isCurrent,
   isMidpoint,
   isExtra,
+  isSleep,
   hasMilestone,
   onHover,
   onLeave,
 }) {
-  let innerClass = "rounded-sm transition-colors w-[var(--cell-size)] h-[var(--cell-size)] ";
+  let innerClass =
+    "rounded-sm transition-colors w-[var(--cell-size)] h-[var(--cell-size)] ";
 
   if (isCurrent) {
     innerClass += "bg-[#10B981]";
@@ -18,6 +20,8 @@ function WeekCell({
     innerClass += "bg-[#F5D02F]";
   } else if (isMidpoint) {
     innerClass += "bg-[#EC4899] ring-1 ring-pink-300";
+  } else if (isSleep) {
+    innerClass += "bg-[#6366F1]";
   } else if (isPast) {
     innerClass += "bg-[#3B82F6]";
   } else {

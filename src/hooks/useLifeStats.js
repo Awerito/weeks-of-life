@@ -19,13 +19,14 @@ export function useLifeStats(lifeExpectancy) {
       const weeksRemaining = Math.max(0, totalWeeks - weeksLived);
       const percentageLived = Math.min(
         100,
-        Math.round((weeksLived / totalWeeks) * 100)
+        Math.round((weeksLived / totalWeeks) * 100),
       );
 
       const msInDay = 1000 * 60 * 60 * 24;
       const daysLived = Math.floor((today - birthDate) / msInDay);
 
       const hoursSlept = Math.floor(daysLived * 8);
+      const sleepWeeks = Math.floor(weeksLived / 3);
       const heartbeats = Math.floor(daysLived * 24 * 60 * 70);
       const breaths = Math.floor(daysLived * 24 * 60 * 16);
       const seasons = Math.floor(daysLived / 91.25);
@@ -45,6 +46,7 @@ export function useLifeStats(lifeExpectancy) {
         percentageLived,
         daysLived,
         hoursSlept,
+        sleepWeeks,
         heartbeats,
         breaths,
         seasons,
@@ -57,7 +59,7 @@ export function useLifeStats(lifeExpectancy) {
       setStats(newStats);
       return newStats;
     },
-    [lifeExpectancy]
+    [lifeExpectancy],
   );
 
   const reset = useCallback(() => {
